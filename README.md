@@ -23,22 +23,18 @@ To get started with the Student Management System, follow these steps:
 
 1. Clone the repository:
 
-bash
    git clone git@github.com:LynaSovann/student_management_system.git
    
 2. Navigate to the project directory:
    
-bash
    cd student_management_system
    
 3. Compile the code:
    
-bash
    g++ -o compile index.cpp
    
 4. Run the compiled executable:
    
-bash
    ./compile
 ## Usage
 
@@ -64,6 +60,6 @@ This project is licensed under the [MIT License] (LICENSE).
 
 ## Contact
 
-For any inquiries or feedback, please contact Sovann Lyna at sovannlyna2004@gmail.com(mailto: sovannlyna2004@gmail.com).
+For any inquiries or feedback, please contact Sovann Lyna at sovannlyna2004@gmail.com.
 
 
