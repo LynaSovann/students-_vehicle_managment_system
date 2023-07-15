@@ -21,13 +21,13 @@ This is my teammate projects.
 
 ## Contributor
 
-    - Sovann Lyna
-    - Reth Sela
-    - Nhoeb Somnang
-    - Thann Sros
-    - Choun Seyha
-    - Theav Vannthean
-    -  Nheang Sim
+ - Sovann Lyna
+ - Reth Sela
+ - Nhoeb Somnang
+ - Thann Sros
+ - Choun Seyha
+ - Theav Vannthean
+ -  Nheang Sim
 ## contact me
 
 
