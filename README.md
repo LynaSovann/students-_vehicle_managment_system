@@ -23,20 +23,19 @@ To get started with the Student Management System, follow these steps:
 
 1. Clone the repository:
 
-
-   git clone git@github.com:LynaSovann/student_management_system.git
+   `git clone git@github.com:LynaSovann/student_management_system.git`
    
 2. Navigate to the project directory:
    
-   cd student_management_system
+   `cd student_management_system`
    
 3. Compile the code:
    
-   g++ -o compile index.cpp
+   `g++ -o compile index.cpp`
    
 4. Run the compiled executable:
    
-   ./compile
+   `./compile`
 ## Usage
 
 This system allows staff members to manage students' vehicles in the department. The following features are available:
