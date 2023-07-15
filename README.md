@@ -1,4 +1,10 @@
-﻿# student_managment_system
+﻿<p>
+  <a href="http://www.rupp.edu.kh/">
+    <img width="150" src="./pic/rupp-logo.jpg">
+  </a>
+</p>
+
+# student_managment_system
 
     git clone git@github.com:LynaSovann/student_managment_system.git
 
