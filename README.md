@@ -82,6 +82,7 @@ For more details, please refer to the [MIT License](LICENSE) file.
 
 ## Contact
 
-For any inquiries or feedback, please contact Sovann Lyna at sovannlyna2004@gmail.com.
+For any inquiries or feedback, please contact me at sovannlyna2004@gmail.com.
 
 
+###### Buy me a cup of coffee then we'll code together
