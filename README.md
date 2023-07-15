@@ -85,4 +85,4 @@ For more details, please refer to the [MIT License](LICENSE) file.
 For any inquiries or feedback, please contact me at sovannlyna2004@gmail.com.
 
 
-###### Buy me a cup of coffee then we'll code together:3
+###### Buy me a cup of coffee then we'll code together:|
