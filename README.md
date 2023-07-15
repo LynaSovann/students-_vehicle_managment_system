@@ -23,6 +23,7 @@ To get started with the Student Management System, follow these steps:
 
 1. Clone the repository:
 
+
    git clone git@github.com:LynaSovann/student_management_system.git
    
 2. Navigate to the project directory:
