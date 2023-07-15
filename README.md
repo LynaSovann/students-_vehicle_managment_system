@@ -1,4 +1,4 @@
-﻿markdown
+﻿
 <p align="center">
   <a href="http://www.rupp.edu.kh/">
     <img width="150" src="./pic/rupp-logo.jpg">
@@ -7,9 +7,6 @@
 
 
 # Student Managment System
-
-![GitHub]
-(https://img.shields.io/github/license/LynaSovann/student_management_system)
 
 This is a student management system designed for managing students' vehicles in the Department of Computer science at Royal University of Phnom Penh.
 
@@ -27,23 +24,22 @@ To get started with the Student Management System, follow these steps:
 1. Clone the repository:
 
 bash
-    git clone
-git@github.com:LynaSovann/student_management_system.git
-
+   git clone git@github.com:LynaSovann/student_management_system.git
+   
 2. Navigate to the project directory:
-
+   
 bash
-    cd student_management_system
-
+   cd student_management_system
+   
 3. Compile the code:
-
-base 
-    g++ -o compile index.cpp
-
-4. Run the compiled executable:
-
+   
 bash
-    ./compile
+   g++ -o compile index.cpp
+   
+4. Run the compiled executable:
+   
+bash
+   ./compile
 ## Usage
 
 This system allows staff members to manage students' vehicles in the department. The following features are available:
@@ -64,7 +60,7 @@ This project was a collaborative effort by the following contributors:
  -  Nheang Sim
 ## License
 
-This project is licensed under the (LICENSE).
+This project is licensed under the [MIT License] (LICENSE).
 
 ## Contact
 
