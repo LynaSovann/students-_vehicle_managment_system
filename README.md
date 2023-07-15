@@ -2,7 +2,9 @@
 
     git clone git@github.com:LynaSovann/student_managment_system.git
 
+
     cd student_managment_system
+
 
     g++ -o compile index.cpp
 
@@ -17,15 +19,15 @@ Staff be able to remove, view , and add students as much as they want.
 ## License
 This is my teammate projects.
 
-Our teammates are 
-                                    -  Sovann Lyna
-                                    - Reth Sela
-                                    - Nhoeb Somnang
-                                    - Thann Sros
-                                    -  Choun Seyha
-                                    - Theav Vannthean
-                                    - Nheang Sim
+## Contributor
 
+    - Sovann Lyna
+    - Reth Sela
+    - Nhoeb Somnang
+    - Thann Sros
+    - Choun Seyha
+    - Theav Vannthean
+    -  Nheang Sim
 ## contact me
 
 
