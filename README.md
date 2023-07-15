@@ -1,32 +1,60 @@
-﻿<p>
+﻿markdown
+<p align="center">
   <a href="http://www.rupp.edu.kh/">
     <img width="150" src="./pic/rupp-logo.jpg">
   </a>
 </p>
 
-# student_managment_system
 
-    git clone git@github.com:LynaSovann/student_managment_system.git
+# Student Managment System
 
+![GitHub]
+(https://img.shields.io/github/license/LynaSovann/student_management_system)
 
-    cd student_managment_system
+This is a student management system designed for managing students' vehicles in the Department of Computer science at Royal University of Phnom Penh.
 
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributors](#contributors)
+- [License](#license)
+- [Contact](#contact)
 
+## Installation
+
+To get started with the Student Management System, follow these steps:
+
+1. Clone the repository:
+
+bash
+    git clone
+git@github.com:LynaSovann/student_management_system.git
+
+2. Navigate to the project directory:
+
+bash
+    cd student_management_system
+
+3. Compile the code:
+
+base 
     g++ -o compile index.cpp
 
+4. Run the compiled executable:
+
+bash
     ./compile
-
 ## Usage
-This system is just my assignment in university used to manage on students' vehicle in my department.
-### Instructions
-Staff needs to login to create students who get their vehicle in.
-Staff be able to remove, view , and add students as much as they want.
 
-## License
-This is my teammate projects.
+This system allows staff members to manage students' vehicles in the department. The following features are available:
 
-## Contributor
+- Login to create new student records.
+- Remove, view, and add student as needed.
 
+Please refer to the system documentation for detailed instructions on how to use each feature.
+## Contributors
+
+This project was a collaborative effort by the following contributors:
  - Sovann Lyna
  - Reth Sela
  - Nhoeb Somnang
@@ -34,6 +62,12 @@ This is my teammate projects.
  - Choun Seyha
  - Theav Vannthean
  -  Nheang Sim
-## contact me
+## License
+
+This project is licensed under the (LICENSE).
+
+## Contact
+
+For any inquiries or feedback, please contact Sovann Lyna at sovannlyna2004@gmail.com(mailto: sovannlyna2004@gmail.com).
 
 
