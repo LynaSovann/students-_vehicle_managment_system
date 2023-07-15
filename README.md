@@ -1,6 +1,6 @@
 ﻿# student_managment_system
 
-git clone git@github.com:LynaSovann/student_managment_system.git
+    git clone git@github.com:LynaSovann/student_managment_system.git
 
 cd student_managment_system
 
