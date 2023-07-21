@@ -6,7 +6,7 @@
 </p>
 
 
-# Student Managment System
+# Students' Vehicle Managment System (SVMS)
 
 This is a student management system designed for managing students' vehicles in the Department of Computer science at Royal University of Phnom Penh.
 
