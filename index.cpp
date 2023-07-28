@@ -77,8 +77,6 @@ void read_staff_file()
     if (!staffFile)
     {
         cout << "\tNo staff!!" << endl;
-        // cout << " dfdjfdj";
-        cout << "this is my code" << endl;
     }
     string data;
     cout << "\t=================\tStaff table\t================" << endl;
