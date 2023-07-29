@@ -625,6 +625,28 @@ void term_n_condition()
          << endl;
 }
 
+void rules()
+{
+    ifstream readFile;
+    string data;
+    readFile.open("rules.txt");
+    if (readFile)
+    {
+        cout << "\n\tThe rules: " << endl;
+        while (getline(readFile, data))
+        {
+            cout << "\t\t- " << data << endl;
+        }
+        readFile.close();
+    }
+    else
+    {
+        cout << "\tNo any rule yet" << endl;
+    }
+    cout << "\n\t";
+    system("pause");
+}
+
 // <3 using crud
 void add_rules4staff()
 {
@@ -657,7 +679,8 @@ void add_rules4staff()
         {
             cout << endl;
             system("cls");
-            cout << "\n\t\tYou chose adding the rule." << endl << endl;
+            cout << "\n\t\tYou chose adding the rule." << endl
+                 << endl;
             cout << "\t>> Enter rule number: ";
             cin >> rule_num;
             cout << "\t>> Enter the rule: ";
@@ -681,65 +704,105 @@ void add_rules4staff()
         }
         break;
         case 2:
-        {
-            string data;
-            readFile.open("rules.txt");
-            if (readFile)
-            {
-                cout << "\n\tThe rules: " << endl;
-                while (getline(readFile, data))
-                {
-                    cout << "\t\t- " << data << endl;
-                }
-                readFile.close();
-            }
-            else
-            {
-                cout << "\tNo any rule yet" << endl;
-            }
-            cout << "\n\t";
-            system("pause");
-        }
-        break;
+            rules();
+            break;
         case 3:
-            int no; // zzz rules number
-            cout << "\tEnter the rule number to update: ";
-            cin >> no;
+        {
+            int rule_num;
+            cout << endl;
+            system("cls");
+            cout << "\n\t\tYou chose updating a rule." << endl
+                 << endl;
+            cout << "\t>> Enter rule number: ";
+            cin >> rule_num;
+
+            bool found = false;
+            string data;
             updateFile.open("rules.txt", ios::in | ios::out);
             if (updateFile)
             {
-                string rule;
-                int current_rule = 1;
-                bool found = false;
-                while (getline(updateFile, rule))
+                while (getline(updateFile, data))
                 {
-                    if (current_rule == no)
+                    if (data.compare(0, 5, "Rule" + to_string(rule_num) + ":") == 0)
                     {
                         found = true;
-                        cout << "\tCurrent  rule: " << rule << endl;
-                        cout << "\tEnter the updated rule: ";
-                        cin.ignore();
+                        cout << "\n\t\tCurrent rule: " << data << endl;
+                        cout << "\t>> Enter new rule: ";
                         getline(cin, rule);
-                        updateFile.seekp(updateFile.tellg(), ios::beg);
-                        updateFile << rule << endl;
-                        cout << "\n\tRule has been updated successfully!!" << endl;
+                        updateFile.seekp(static_cast<std::streampos>(updateFile.tellg()) - static_cast<std::streamoff>(data.length()) - static_cast<std::streamoff>(1));
+                        updateFile << "Rule" << rule_num << ": " << rule << endl;
+                        cout << "\n\t\tProcessing..." << endl;
+                        sleep(1.5);
+                        system("cls");
+                        cout << "\a\tRule has been updated successfully" << endl
+                             << endl;
                         break;
                     }
-                    current_rule++;
                 }
                 if (!found)
                 {
-                    cout << "\tRule No. not found" << endl;
+                    cout << "\tRule number " << rule_num << " not found" << endl;
                 }
                 updateFile.close();
             }
             else
             {
-                cout << "\tError opening the file." << endl;
+                cout << "\tError opening the rules file." << endl;
             }
-            break;
+        }
+        break;
         case 4:
-            break;
+        {
+            int rule_num;
+            cout << endl;
+            system("cls");
+            cout << "\n\t\tYou chose deleting a rule." << endl
+                 << endl;
+            cout << "\t>> Enter rule number: ";
+            cin >> rule_num;
+
+            bool found = false;
+            string data;
+            ifstream readFile("rules.txt");
+            ofstream tempFile("temp_rules.txt");
+            if (readFile && tempFile)
+            {
+                while (getline(readFile, data))
+                {
+                    if (data.compare(0, 5, "Rule" + to_string(rule_num) + ":") != 0)
+                    {
+                        tempFile << data << endl;
+                    }
+                    else
+                    {
+                        found = true;
+                    }
+                }
+                readFile.close();
+                tempFile.close();
+
+                if (found)
+                {
+                    remove("rules.txt");
+                    rename("temp_rules.txt", "rules.txt");
+                    cout << "\n\t\tProcessing..." << endl;
+                    sleep(1.5);
+                    system("cls");
+                    cout << "\a\tRule has been deleted sucessfully" << endl
+                         << endl;
+                }
+                else
+                {
+                    remove("temp_rules.txt");
+                    cout << "\tRule number " << rule_num << " not found" << endl;
+                }
+            }
+            else
+            {
+                cout << "\tError opening the rules file." << endl;
+            }
+        }
+        break;
         case 5:
             return;
             break;
