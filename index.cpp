@@ -10,18 +10,18 @@
 using namespace std;
 
 // :-D Global Scope declaration
-const string UNIVERSITY_NAME = "Royal University of Phnom Penh";
-const string FIRST_NAME = "Jonh";
-const string LAST_NAME = "Doe";
-const int AGE = 20;
+const string UNIVERSITY_NAME = "1";
+const string FIRST_NAME = "1";
+const string LAST_NAME = "1";
+const int AGE = 1;
 const string GENDER = "Male";
-const string PHONE_NUMBER ="0123456789";
-const string PASSWORD = "JonhDoe_popularBoy_168";
+const string PHONE_NUMBER = "1";
+const string PASSWORD = "1";
 
 // :-D Enum
 enum Role
 {
-    NoneRole, // :-* NoneRole has been declared because enum starts from index 0. i need userAdmin to be index 1 so i added it.
+    NoneRole, // :-* NoneRole has been declared because enum starts from index 0. i need userAdmin to be index 1.
     UserAdmin,
     UserStaff
 };
@@ -508,10 +508,6 @@ void privacy_n_policy()
     cout << "\tIf you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us." << endl;
 }
 
-void add_rules4staff()
-{
-}
-
 void term_n_condition()
 {
     cout << "\tTerms and Conditions" << endl
@@ -630,106 +626,123 @@ void term_n_condition()
 }
 
 // <3 using crud
-void instructions_4_staff()
+void add_rules4staff()
 {
     int option;
-    cout << "\t1.Write more rules" << endl;
-    cout << "\t2. Read old rules" << endl;
-    cout << "\t3. Update rules" << endl;
-    cout << "\t4. Delete rule" << endl;
-    cout << "\t5. Back" << endl;
-    cout << "\tEnter your option: ";
-    cin >> option;
+    cout << "\n\n\t\tprocessing...";
+    sleep(1.5);
+    system("cls");
+    while (1)
+    {
+        cout << "\t======= Options =======" << endl
+             << endl;
+        cout << "\t\t1. Add rule" << endl;
+        cout << "\t\t2. View rules" << endl;
+        cout << "\t\t3. Update rules" << endl;
+        cout << "\t\t4. Delete rule" << endl;
+        cout << "\t\t5. Back" << endl
+             << endl;
+        cout << "\t>> Enter your option: ";
+        cin >> option;
 
-    ofstream file;
-    ifstream readFile;
-    fstream updateFile;
+        ofstream file;
+        ifstream readFile;
+        fstream updateFile;
 
-    switch (option)
-    {
-    case 1:
-    {
-        string rule;
-        cout << "\tEnter the rule: ";
-        cin.ignore();
-        getline(cin, rule);
-        file.open("rules.txt", ios::app);
-        if (file)
+        switch (option)
         {
-            file << rule << endl;
-            cout << "\tRule has been added successfully" << endl;
-            file.close();
-        }
-        else
-        {
-            cout << "\tError opening the rules file." << endl;
-        }
-    }
-    break;
-    case 2:
-    {
-        string data;
-        readFile.open("rules.txt");
-        if (readFile)
-        {
-            cout << "\tThe rules: " << endl;
-            while (getline(readFile, data))
-            {
-                cout << "\t- " << data << endl;
-            }
-            readFile.close();
-        }
-        else
-        {
-            cout << "\tNo any rule yet" << endl;
-        }
-    }
-    break;
-    case 3:
-        int no; // zzz rules number
-        cout << "\tEnter the rule number to update: ";
-        cin >> no;
-        updateFile.open("rules.txt", ios::in | ios::out);
-        if (updateFile)
+        case 1:
         {
             string rule;
-            int current_rule = 1;
-            bool found = false;
-            while (getline(updateFile, rule))
+            int count = 1; // <3 add index by 1
+            int index;
+            cout << endl;
+            cout << "\t>> Enter the rule: ";
+            cin.ignore();
+            getline(cin, rule);
+            file.open("rules.txt", ios::app);
+            if (file)
             {
-                if (current_rule == no)
-                {
-                    found = true;
-                    cout << "\tCurrent  rule: " << rule << endl;
-                    cout << "\tEnter the updated rule: ";
-                    cin.ignore();
-                    getline(cin, rule);
-                    updateFile.seekp(updateFile.tellg(), ios::beg);
-                    updateFile << rule << endl;
-                    cout << "\n\tRule has been updated successfully!!" << endl;
-                    break;
-                }
-                current_rule++;
+                file << "Rule" << index << ": " << rule << endl;
+                index++; // <3 increase index after adding the rule
+                cout << "\n\t\tProcessing..." << endl;
+                sleep(1.5);
+                system("cls");
+                cout << "\a\tRule has been added successfully" << endl
+                     << endl;
+                file.close();
             }
-            if (!found)
+            else
             {
-                cout << "\tRule No. not found" << endl;
+                cout << "\tError opening the rules file." << endl;
             }
-            updateFile.close();
         }
-        else
+        break;
+        case 2:
         {
-            cout << "\tError opening the file." << endl;
+            string data;
+            readFile.open("rules.txt");
+            if (readFile)
+            {
+                cout << "\tThe rules: " << endl;
+                while (getline(readFile, data))
+                {
+                    cout << "\t" << data << endl;
+                }
+                readFile.close();
+            }
+            else
+            {
+                cout << "\tNo any rule yet" << endl;
+            }
         }
         break;
-    case 4:
-        break;
-    case 5:
-        return;
-        break;
-    default:
-        cout << "\tOption men trem trov" << endl;
-        break;
+        case 3:
+            int no; // zzz rules number
+            cout << "\tEnter the rule number to update: ";
+            cin >> no;
+            updateFile.open("rules.txt", ios::in | ios::out);
+            if (updateFile)
+            {
+                string rule;
+                int current_rule = 1;
+                bool found = false;
+                while (getline(updateFile, rule))
+                {
+                    if (current_rule == no)
+                    {
+                        found = true;
+                        cout << "\tCurrent  rule: " << rule << endl;
+                        cout << "\tEnter the updated rule: ";
+                        cin.ignore();
+                        getline(cin, rule);
+                        updateFile.seekp(updateFile.tellg(), ios::beg);
+                        updateFile << rule << endl;
+                        cout << "\n\tRule has been updated successfully!!" << endl;
+                        break;
+                    }
+                    current_rule++;
+                }
+                if (!found)
+                {
+                    cout << "\tRule No. not found" << endl;
+                }
+                updateFile.close();
+            }
+            else
+            {
+                cout << "\tError opening the file." << endl;
+            }
+            break;
+        case 4:
+            break;
+        case 5:
+            return;
+            break;
+        default:
+            cout << "\tOption men trem trov" << endl;
+            break;
+        }
     }
 }
 
@@ -793,19 +806,18 @@ int main()
             cout << "\n\t\tLoading data. Please wait..." << endl;
             sleep(1.5);
             system("cls");
-            cout << admin.university_name << admin.firstname << admin.lastname << admin.gender << admin.phone_num << admin.age << admin.password << endl;
-            if ((admin.university_name == UNIVERSITY_NAME) && (admin.firstname == FIRST_NAME) && (admin.lastname == LAST_NAME) && (admin.age == AGE )&& (admin.gender == GENDER) && (admin.phone_num == PHONE_NUMBER) && (admin.password == PASSWORD))
+            if ((admin.university_name == UNIVERSITY_NAME) && (admin.firstname == FIRST_NAME) && (admin.lastname == LAST_NAME) && (admin.age == AGE) && (admin.gender == GENDER) && (admin.phone_num == PHONE_NUMBER) && (admin.password == PASSWORD))
             {
+                cout << "\n\t\tYou have logged in as admin" << endl;
                 while (1)
                 {
-                    system("cls");
-                    cout << "\n\t\tAs an admin you have these options" << endl;
                     cout << "\n\t1. View staff " << endl;
                     cout << "\t2. View students" << endl;
                     cout << "\t3. Add rules for staff " << endl;
                     cout << "\t4. Read the Terms and Conditions" << endl;
                     cout << "\t5. Read the Privacy and policy" << endl;
-                    cout << "\t6. Back" << endl;
+                    cout << "\t6. Clear Screen" << endl;
+                    cout << "\t7. Back" << endl;
                     cout << "\t>> Enter your option: ";
                     cin >> admin_option;
                     cout << endl;
@@ -840,7 +852,12 @@ int main()
                         system("pause");
                     }
                     else if (admin_option == 6)
+                    {
+                        system("cls");
+                    }
+                    else if (admin_option == 7)
                         break;
+
                     else
                     {
                         cout << "\tInvalid number! Feel free to input again" << endl;
@@ -852,7 +869,10 @@ int main()
                 system("pause");
                 system("cls");
                 cout << endl;
-            } else {
+            }
+
+            else
+            {
                 cout << "\t\tWrong input!!";
             }
         }
