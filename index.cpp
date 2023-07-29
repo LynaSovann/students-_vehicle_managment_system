@@ -110,7 +110,7 @@ string get_current_time()
     }
     else
     {
-        am_pm = "PM";
+        am_pm = " PM";
     }
     time = h + ":" + m + ":" + s + am_pm;
     return time;
@@ -125,6 +125,7 @@ void read_staff_file()
         cout << "\tNo staff!!" << endl;
     }
     string data;
+    int total_staff = 0;
     cout << "\t=================\tStaff table\t================" << endl;
     cout << "\t" << left << setw(15) << "Name" << left << setw(15) << "Phone" << left << setw(15) << "Password"
          << "Create at" << endl;
@@ -132,8 +133,10 @@ void read_staff_file()
     while (getline(staffFile, data))
     {
         cout << data << "\n";
+        total_staff++;
     }
     cout << "\t========================================================" << endl;
+    cout << "\tTotal: " << total_staff << " staff" << endl;
     staffFile.close();
 }
 
@@ -273,6 +276,7 @@ void view_ses()
         return;
     }
     string data;
+    int total_student = 0; //<3 Jom noun ses
     cout << "\t========="
          << "\t"
          << "Student table"
@@ -284,8 +288,10 @@ void view_ses()
     {
         stringstream ss(data);
         cout << data << endl;
+        total_student++;
     }
     cout << "\t==========================================" << endl;
+    cout << "\tTotal: " << total_student << " students" << endl;
     studentFile.close();
 }
 
@@ -791,6 +797,9 @@ int main()
         }
         else if (option_one == 3)
         {
+            cout << "\n\t\tThanks for using our system" << endl;
+            cout << "\tThis program will be closed in 2 s." << endl;
+            sleep(2);
             return 0;
         }
         else
