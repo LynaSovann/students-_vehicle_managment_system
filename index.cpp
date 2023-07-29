@@ -357,6 +357,8 @@ void student_management()
             break;
         case 3:
             view_ses();
+            cout << "\n\t";
+            system("pause");
             break;
         case 4:
             search_student();
@@ -404,7 +406,7 @@ void staff_sign_up()
     staffFile << "\t" << left << setw(15) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl;
     staffFile.close();
     cout << "\tYou created new accound successfully!!" << endl;
-    cout << "Continue....?" << endl;
+    cout << "\n\t";
     system("pause");
     student_management();
 }
@@ -625,194 +627,6 @@ void term_n_condition()
          << endl;
 }
 
-void rules()
-{
-    ifstream readFile;
-    string data;
-    readFile.open("rules.txt");
-    if (readFile)
-    {
-        cout << "\n\tThe rules: " << endl;
-        while (getline(readFile, data))
-        {
-            cout << "\t\t- " << data << endl;
-        }
-        readFile.close();
-    }
-    else
-    {
-        cout << "\tNo any rule yet" << endl;
-    }
-    cout << "\n\t";
-    system("pause");
-}
-
-// <3 using crud
-void add_rules4staff()
-{
-    int option;
-    string rule;
-    int rule_num;
-    cout << "\n\n\t\tprocessing...";
-    sleep(1.5);
-    system("cls");
-    while (1)
-    {
-        cout << "\t======= Options =======" << endl
-             << endl;
-        cout << "\t\t1. Add rule" << endl;
-        cout << "\t\t2. View rules" << endl;
-        cout << "\t\t3. Update rules" << endl;
-        cout << "\t\t4. Delete rule" << endl;
-        cout << "\t\t5. Back" << endl
-             << endl;
-        cout << "\t>> Enter your option: ";
-        cin >> option;
-
-        ofstream file;
-        ifstream readFile;
-        fstream updateFile;
-
-        switch (option)
-        {
-        case 1:
-        {
-            cout << endl;
-            system("cls");
-            cout << "\n\t\tYou chose adding the rule." << endl
-                 << endl;
-            cout << "\t>> Enter rule number: ";
-            cin >> rule_num;
-            cout << "\t>> Enter the rule: ";
-            cin.ignore();
-            getline(cin, rule);
-            file.open("rules.txt", ios::app);
-            if (file)
-            {
-                file << "Rule" << rule_num << ": " << rule << endl;
-                cout << "\n\t\tProcessing..." << endl;
-                sleep(1.5);
-                system("cls");
-                cout << "\a\tRule has been added successfully" << endl
-                     << endl;
-                file.close();
-            }
-            else
-            {
-                cout << "\tError opening the rules file." << endl;
-            }
-        }
-        break;
-        case 2:
-            rules();
-            break;
-        case 3:
-        {
-            int rule_num;
-            cout << endl;
-            system("cls");
-            cout << "\n\t\tYou chose updating a rule." << endl
-                 << endl;
-            cout << "\t>> Enter rule number: ";
-            cin >> rule_num;
-
-            bool found = false;
-            string data;
-            updateFile.open("rules.txt", ios::in | ios::out);
-            if (updateFile)
-            {
-                while (getline(updateFile, data))
-                {
-                    if (data.compare(0, 5, "Rule" + to_string(rule_num) + ":") == 0)
-                    {
-                        found = true;
-                        cout << "\n\t\tCurrent rule: " << data << endl;
-                        cout << "\t>> Enter new rule: ";
-                        getline(cin, rule);
-                        updateFile.seekp(static_cast<std::streampos>(updateFile.tellg()) - static_cast<std::streamoff>(data.length()) - static_cast<std::streamoff>(1));
-                        updateFile << "Rule" << rule_num << ": " << rule << endl;
-                        cout << "\n\t\tProcessing..." << endl;
-                        sleep(1.5);
-                        system("cls");
-                        cout << "\a\tRule has been updated successfully" << endl
-                             << endl;
-                        break;
-                    }
-                }
-                if (!found)
-                {
-                    cout << "\tRule number " << rule_num << " not found" << endl;
-                }
-                updateFile.close();
-            }
-            else
-            {
-                cout << "\tError opening the rules file." << endl;
-            }
-        }
-        break;
-        case 4:
-        {
-            int rule_num;
-            cout << endl;
-            system("cls");
-            cout << "\n\t\tYou chose deleting a rule." << endl
-                 << endl;
-            cout << "\t>> Enter rule number: ";
-            cin >> rule_num;
-
-            bool found = false;
-            string data;
-            ifstream readFile("rules.txt");
-            ofstream tempFile("temp_rules.txt");
-            if (readFile && tempFile)
-            {
-                while (getline(readFile, data))
-                {
-                    if (data.compare(0, 5, "Rule" + to_string(rule_num) + ":") != 0)
-                    {
-                        tempFile << data << endl;
-                    }
-                    else
-                    {
-                        found = true;
-                    }
-                }
-                readFile.close();
-                tempFile.close();
-
-                if (found)
-                {
-                    remove("rules.txt");
-                    rename("temp_rules.txt", "rules.txt");
-                    cout << "\n\t\tProcessing..." << endl;
-                    sleep(1.5);
-                    system("cls");
-                    cout << "\a\tRule has been deleted sucessfully" << endl
-                         << endl;
-                }
-                else
-                {
-                    remove("temp_rules.txt");
-                    cout << "\tRule number " << rule_num << " not found" << endl;
-                }
-            }
-            else
-            {
-                cout << "\tError opening the rules file." << endl;
-            }
-        }
-        break;
-        case 5:
-            return;
-            break;
-        default:
-            cout << "\tOption men trem trov" << endl;
-            break;
-        }
-    }
-}
-
 int main()
 {
     int option, admin_option, option_one;
@@ -880,11 +694,10 @@ int main()
                 {
                     cout << "\n\t1. View staff " << endl;
                     cout << "\t2. View students" << endl;
-                    cout << "\t3. Add rules for staff " << endl;
-                    cout << "\t4. Read the Terms and Conditions" << endl;
-                    cout << "\t5. Read the Privacy and policy" << endl;
-                    cout << "\t6. Clear Screen" << endl;
-                    cout << "\t7. Back" << endl;
+                    cout << "\t3. Terms and Conditions" << endl;
+                    cout << "\t4. Privacy and policy" << endl;
+                    cout << "\t5. Clear Screen" << endl;
+                    cout << "\t6. Back" << endl;
                     cout << "\t>> Enter your option: ";
                     cin >> admin_option;
                     cout << endl;
@@ -902,27 +715,21 @@ int main()
                     }
                     else if (admin_option == 3)
                     {
-                        add_rules4staff();
+                        term_n_condition();
                         cout << "\n\t";
                         system("pause");
                     }
                     else if (admin_option == 4)
                     {
-                        term_n_condition();
+                        privacy_n_policy();
                         cout << "\n\t";
                         system("pause");
                     }
                     else if (admin_option == 5)
                     {
-                        privacy_n_policy();
-                        cout << "\n\t";
-                        system("pause");
-                    }
-                    else if (admin_option == 6)
-                    {
                         system("cls");
                     }
-                    else if (admin_option == 7)
+                    else if (admin_option == 6)
                         break;
 
                     else
@@ -933,7 +740,6 @@ int main()
                     }
                 }
                 cout << endl;
-                system("pause");
                 system("cls");
                 cout << endl;
             }
