@@ -36,9 +36,9 @@ enum Gender
 enum VehicleType
 {
     NoType,
-    Car,
     Bike,
-    Motorbike
+    Motorbike,
+    Car
 };
 
 // :-D Structure
@@ -126,16 +126,17 @@ void read_staff_file()
     }
     string data;
     int total_staff = 0;
-    cout << "\t=================\tStaff table\t================" << endl;
-    cout << "\t" << left << setw(15) << "Name" << left << setw(15) << "Phone" << left << setw(15) << "Password"
+    cout << "\t======================\t Staff table\t======================" << endl;
+    cout << "\t" << left << setw(21) << "Name" << left << setw(15) << "Phone" << left << setw(15) << "Password"
          << "Create at" << endl;
-    cout << "\t========================================================" << endl;
+    cout << "\t==============================================================" << endl
+         << endl;
     while (getline(staffFile, data))
     {
         cout << data << "\n";
         total_staff++;
     }
-    cout << "\t========================================================" << endl;
+    cout << "\n\t==============================================================" << endl;
     cout << "\tTotal: " << total_staff << " staff" << endl;
     staffFile.close();
 }
@@ -182,24 +183,38 @@ bool staff_sign_in()
 // l vehicle type need to change
 void add_student()
 {
-    string student_name, student_id, type_of_vehicle, create_at;
-    cout << "\t==>> Note: there are there types of vehicle for students" << endl;
-    cout << "\tBike" << endl;
-    cout << "\tMotor" << endl;
-    cout << "\tCar" << endl;
-    cout << "\t==========" << endl;
-    cout << "\tEnter studentname: ";
-    cin >> student_name;
-    cin.seekg(0, ios::end);
-    cin.clear();
-    cout << "\tEnter student id: ";
-    cin >> student_id;
-    cin.seekg(0, ios::end);
-    cin.clear();
-    cout << "\tEnter student's vehicle type: ";
-    cin >> type_of_vehicle;
-    cin.seekg(0, ios::end);
-    cin.clear();
+    string student_name, student_id, create_at, vehicle_type;
+    int opt_ve;
+    cout << "\t=============== You chose adding student into file ===============" << endl
+         << endl;
+    cout << "\t\tEnter studentname: ";
+    cin.ignore();
+    getline(cin, student_name);
+    cout << "\t\tEnter student id: ";
+    getline(cin, student_id);
+    cout << "\t\tThere are 3 type of vehicles for students" << endl;
+inputType:
+    cout << "\t\t\t[1]. Bike" << endl;
+    cout << "\t\t\t[2]. Motorbype" << endl;
+    cout << "\t\t\t[3]. Car" << endl;
+    cout << "\t\tEnter student's vehicle type: ";
+    cin >> opt_ve;
+    switch (opt_ve)
+    {
+    case Bike:
+        vehicle_type = "Bike";
+        break;
+    case Motorbike:
+        vehicle_type = "Motorbike";
+        break;
+    case Car:
+        vehicle_type = "Car";
+        break;
+    default:
+        cout << "\t\tInvalid option!" << endl;
+        goto inputType;
+        break;
+    }
     create_at = get_current_time();
     ofstream studentFile("student.txt", ios::app);
     if (!studentFile)
@@ -207,9 +222,10 @@ void add_student()
         cout << "\terror hz" << endl;
         return;
     }
-    studentFile << "\t" << left << setw(10) << student_id << left << setw(10) << student_name << left << setw(10) << type_of_vehicle << left << setw(10) << create_at << endl;
+    studentFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(10) << vehicle_type << left << setw(10) << create_at << endl;
     studentFile.close();
-    cout << "\t\astudent has been created successfully!!" << endl;
+    cout << endl;
+    cout << "\t\t\astudent has been added successfully!!" << endl;
 }
 
 // <3 remove student when they leave from university
@@ -277,20 +293,21 @@ void view_ses()
     }
     string data;
     int total_student = 0; //<3 Jom noun ses
-    cout << "\t========="
+    cout << "\t================="
          << "\t"
          << "Student table"
          << "\t"
-         << "==========" << endl;
-    cout << "\t" << left << setw(10) << "ID" << left << setw(10) << "Name" << left << setw(10) << "Type" << left << setw(10) << "Enter at" << endl;
-    cout << "\t==========================================" << endl;
+         << "=================" << endl;
+    cout << "\t" << left << setw(10) << "ID" << left << setw(20) << "Name" << left << setw(10) << "Type" << left << setw(10) << "Enter at" << endl;
+    cout << "\t====================================================" << endl
+         << endl;
     while (getline(studentFile, data))
     {
         stringstream ss(data);
         cout << data << endl;
         total_student++;
     }
-    cout << "\t==========================================" << endl;
+    cout << "\n\t====================================================" << endl;
     cout << "\tTotal: " << total_student << " students" << endl;
     studentFile.close();
 }
@@ -340,26 +357,28 @@ void student_management()
     while (1)
     {
         cout << endl;
-        cout << "\t======= Students' vehicles management system ===== " << endl;
-        cout << "\t1. Add student" << endl;
-        cout << "\t2. Remove student" << endl;
-        cout << "\t3. View all students " << endl;
-        cout << "\t4. Search for student" << endl;
-        cout << "\t5. Back" << endl;
-        cout << "\tEnter your option: ";
+        cout << "\t============ Students' vehicles management system ========== " << endl
+             << endl;
+        cout << "\t\t1. Add student" << endl;
+        cout << "\t\t2. Remove student" << endl;
+        cout << "\t\t3. View all students " << endl;
+        cout << "\t\t4. Search for student" << endl;
+        cout << "\t\t5. Back" << endl
+             << endl;
+        cout << "\t>> Enter your option: ";
         cin >> option;
         system("cls");
         switch (option)
         {
         case 1:
             add_student();
-            cout << "\tPress any key to conticue..." << endl;
-            cin.ignore();
+            cout << "\t";
+            system("pause");
             break;
         case 2:
             remove_student();
-            cout << "\tPress any key to conticue..." << endl;
-            cin.ignore();
+            cout << "\t";
+            system("pause");
             break;
         case 3:
             view_ses();
@@ -368,11 +387,12 @@ void student_management()
             break;
         case 4:
             search_student();
-            cout << "\tPress any key to conticue..." << endl;
-            cin.ignore();
+            cout << "\t";
+            system("pause");
             break;
         case 5:
             return;
+            break;
         default:
             cout << "\tInvalid option!! Please try again" << endl;
             break;
@@ -386,18 +406,12 @@ void staff_sign_up()
 {
     string username, password, phone_number;
     cout << "\tEnter username: ";
-    cin >> username;
-    cin.seekg(0, ios::end);
-    cin.clear();
+    cin.ignore();
+    getline(cin, username);
     cout << "\tEnter phone number: ";
-    cin >> phone_number;
-    cin.seekg(0, ios::end);
-    cin.clear();
+    getline(cin, phone_number);
     cout << "\tEnter password: ";
-    cin >> password;
-    cin.seekg(0, ios::end);
-    cin.clear();
-
+    getline(cin, password);
     Staff staff;
     staff.username = username;
     staff.phone_number = phone_number;
@@ -409,7 +423,7 @@ void staff_sign_up()
         cout << "\terror to open staff file" << endl;
         return;
     }
-    staffFile << "\t" << left << setw(15) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl;
+    staffFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl;
     staffFile.close();
     cout << "\tYou created new accound successfully!!" << endl;
     cout << "\n\t";
@@ -764,7 +778,8 @@ int main()
                 cout << "\n";
                 cout << "\t\t1. Sign in" << endl;
                 cout << "\t\t2. Sign up" << endl;
-                cout << "\t\t3. Exite" << endl;
+                cout << "\t\t3. Exit" << endl
+                     << endl;
                 cout << "\t>> Enter your option: ";
                 cin >> option;
                 switch (option)
