@@ -629,6 +629,8 @@ void term_n_condition()
 void add_rules4staff()
 {
     int option;
+    string rule;
+    int rule_num;
     cout << "\n\n\t\tprocessing...";
     sleep(1.5);
     system("cls");
@@ -653,18 +655,18 @@ void add_rules4staff()
         {
         case 1:
         {
-            string rule;
-            int count = 1; // <3 add index by 1
-            int index;
             cout << endl;
+            system("cls");
+            cout << "\n\t\tYou chose adding the rule." << endl << endl;
+            cout << "\t>> Enter rule number: ";
+            cin >> rule_num;
             cout << "\t>> Enter the rule: ";
             cin.ignore();
             getline(cin, rule);
             file.open("rules.txt", ios::app);
             if (file)
             {
-                file << "Rule" << index << ": " << rule << endl;
-                index++; // <3 increase index after adding the rule
+                file << "Rule" << rule_num << ": " << rule << endl;
                 cout << "\n\t\tProcessing..." << endl;
                 sleep(1.5);
                 system("cls");
@@ -684,10 +686,10 @@ void add_rules4staff()
             readFile.open("rules.txt");
             if (readFile)
             {
-                cout << "\tThe rules: " << endl;
+                cout << "\n\tThe rules: " << endl;
                 while (getline(readFile, data))
                 {
-                    cout << "\t" << data << endl;
+                    cout << "\t\t- " << data << endl;
                 }
                 readFile.close();
             }
@@ -695,6 +697,8 @@ void add_rules4staff()
             {
                 cout << "\tNo any rule yet" << endl;
             }
+            cout << "\n\t";
+            system("pause");
         }
         break;
         case 3:
