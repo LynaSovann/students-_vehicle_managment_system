@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <string>
 #include <unistd.h> // ;-) sleep();
+#include <conio.h>  // ;-) getch();
 using namespace std;
 
 // :-D Global Scope declaration
@@ -175,9 +176,9 @@ bool staff_sign_in()
           stringstream ss(data);
           string username_stored, phone_number_stored, password_stored;
           ss >> username_stored >> phone_number_stored >> password_stored;
-          
-     // Debugging output
-     cout << "Stored: " << username_stored << "\t" << phone_number_stored << "\t" << password_stored << endl;
+
+          // Debugging output
+          cout << "Stored: " << username_stored << "\t" << phone_number_stored << "\t" << password_stored << endl;
           if (username_stored == username && phone_number_stored == phone_number && password_stored == password)
           {
                staffFile.close();
@@ -416,36 +417,76 @@ void student_management()
      }
 }
 
+string asterisk_display(char ch, string pw)
+{
+     while ((ch = _getch()) != '\r')
+     {
+          if (ch == '\b') // -.- pel enter jub backspace let it remove one character
+          {
+               if (!pw.empty())
+               {
+                    pw.pop_back();   // -.- remove the last character
+                    cout << "\b \b"; // -.- remove *
+               }
+          }
+          else
+          {
+               pw += ch;
+               cout << '*';
+          }
+     }
+      return pw;
+}
+
 // :@ in progress function
 
 void staff_sign_up()
 {
-     string username, password, phone_number;
+     string username, password, phone_number, pass;
+     char ch1, ch2; // :-D ch1 and ch2 is used to represent ******
      cout << "\tEnter username: ";
      cin.ignore();
      getline(cin, username);
      cout << "\tEnter phone number: "; // :@ Phone number must be unique and never use space while inputting , (delete staff by phone number)
      cin >> phone_number;
+     inputPassword:
      cout << "\tEnter password: ";
-     cin.ignore();
-     getline(cin, password);
-     Staff staff;
-     staff.username = username;
-     staff.phone_number = phone_number;
-     staff.password = password;
-     ofstream staffFile("staff.txt", ios::app);
-     string create_at = get_current_time();
-     if (!staffFile)
-     {
-          cout << "\terror to open staff file" << endl;
-          return;
-     }
-     staffFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl;
-     staffFile.close();
-     cout << "\tYou created new accound successfully!!" << endl;
-     cout << "\n\t";
+     pass = asterisk_display(ch1, pass);
+     //* debugging if pasword does not output correctly
+     /// cout << "\npassword entered: " <<  pass << endl;
+     cout << "\n\tEnter confirm password: ";
+     password = asterisk_display(ch2, password);
+     cout << "\npass " << pass << endl;
+     cout << "cpass " << password << endl;
      system("pause");
-     student_management();
+     if (pass != password)
+     {
+          cout << "\n\t!Confirm password doesn't match with the previous password";
+          cout << "\n\tEnter again\n";
+          pass = "";
+          password = "";
+          goto inputPassword;
+     }
+     else
+     {
+          Staff staff;
+          staff.username = username;
+          staff.phone_number = phone_number;
+          staff.password = password;
+          ofstream staffFile("staff.txt", ios::app);
+          string create_at = get_current_time();
+          if (!staffFile)
+          {
+               cout << "\terror to open staff file" << endl;
+               return;
+          }
+          staffFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl;
+          staffFile.close();
+          cout << "\tYou created new accound successfully!!" << endl;
+          cout << "\n\t";
+          system("pause");
+          student_management();
+     }
 }
 
 void privacy_n_policy()
