@@ -11,13 +11,13 @@
 using namespace std;
 
 // :-D Global Scope declaration
-const string UNIVERSITY_NAME = "1";
-const string FIRST_NAME = "1";
-const string LAST_NAME = "1";
-const int AGE = 1;
+const string UNIVERSITY_NAME = "Royal University of Phnom Penh";
+const string FIRST_NAME = "Jonh";
+const string LAST_NAME = "Doe";
+const int AGE = 20;
 const string GENDER = "Male";
-const string PHONE_NUMBER = "1";
-const string PASSWORD = "1";
+const string PHONE_NUMBER = "123456789";
+const string PASSWORD = "jonh_doe_sweet_boy_168";
 
 // :-D Enum
 enum Role
