@@ -1,1 +1,2 @@
-	001       lyna                Bike           14:16:11 PM         100 riel
+	1         test1               Motorbike      15:36:31 PM         300 riel
+	2         2                   Car            15:42:59 PM         1000 riel

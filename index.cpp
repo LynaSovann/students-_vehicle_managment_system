@@ -177,8 +177,6 @@ bool staff_sign_in()
           string username_stored, phone_number_stored, password_stored;
           ss >> username_stored >> phone_number_stored >> password_stored;
 
-          // Debugging output
-          cout << "Stored: " << username_stored << "\t" << phone_number_stored << "\t" << password_stored << endl;
           if (username_stored == username && phone_number_stored == phone_number && password_stored == password)
           {
                staffFile.close();
@@ -194,7 +192,6 @@ void add_student()
      string student_name, student_id, create_at, vehicle_type;
      int price;
      int opt_ve;
-     int total_income = 0;
      cout << "\t=============== You chose adding student into file ===============" << endl
           << endl;
      cout << "\t\tEnter studentname: ";
@@ -307,7 +304,6 @@ void view_ses()
      }
      string data;
      int total_student = 0; //<3 Jom noun ses
-     int total_income = 0;
      cout << "\t=========================="
           << "\t"
           << "Student table"
@@ -325,7 +321,7 @@ void view_ses()
      }
      cout << "\n\t==========================================================================" << endl;
      cout << "\tTotal students: " << total_student << endl;
-     cout << "\tTotal Income: "<< total_income << "riel" << endl;
+          cout << "\t==========================================================================" << endl;
      studentFile.close();
 }
 
@@ -458,9 +454,9 @@ void staff_sign_up()
      /// cout << "\npassword entered: " <<  pass << endl;
      cout << "\n\tEnter confirm password: ";
      password = asterisk_display(ch2, password);
-     cout << "\npass " << pass << endl;
-     cout << "cpass " << password << endl;
-     system("pause");
+     // cout << "\npass " << pass << endl;
+     // cout << "cpass " << password << endl;
+     // system("pause");
      if (pass != password)
      {
           cout << "\n\t!Confirm password doesn't match with the previous password";
@@ -484,7 +480,7 @@ void staff_sign_up()
           }
           staffFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl;
           staffFile.close();
-          cout << "\tYou created new accound successfully!!" << endl;
+          cout << "\n\tYou created new accound successfully!!" << endl;
           cout << "\n\t";
           system("pause");
           student_management();
