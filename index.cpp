@@ -61,6 +61,12 @@ struct Staff
      int price;
 };
 
+void invalid_option_message()
+{
+     cout << "\tInvalid option!" << endl;
+     cout << "\tInput option again" << endl;
+}
+
 // <3 get current time from locallhost (pc)
 string get_current_time()
 {
@@ -150,8 +156,9 @@ bool staff_sign_in()
      cin.ignore();
      getline(cin, username);
      cout << "\tEnter phone number: ";
-     getline(cin, phone_number);
+     cin >> phone_number;
      cout << "\tEnter password: ";
+     cin.ignore();
      getline(cin, password);
      ifstream staffFile("staff.txt");
      if (!staffFile)
@@ -160,14 +167,17 @@ bool staff_sign_in()
           return false;
      }
 
-     cout <<username << "\t" << phone_number  << "\t" << password << endl;
- 
+     cout << username << "\t" << phone_number << "\t" << password << endl;
+
      string data;
      while (getline(staffFile, data))
      {
           stringstream ss(data);
           string username_stored, phone_number_stored, password_stored;
           ss >> username_stored >> phone_number_stored >> password_stored;
+          
+     // Debugging output
+     cout << "Stored: " << username_stored << "\t" << phone_number_stored << "\t" << password_stored << endl;
           if (username_stored == username && phone_number_stored == phone_number && password_stored == password)
           {
                staffFile.close();
@@ -178,7 +188,6 @@ bool staff_sign_in()
      return false;
 }
 
-// l vehicle type need to change
 void add_student()
 {
      string student_name, student_id, create_at, vehicle_type;
@@ -318,6 +327,7 @@ void view_ses()
 }
 
 // l search by id
+// -.- Duaplication is still valid, => fix it
 void search_student()
 {
      string search_id;
@@ -372,7 +382,7 @@ void student_management()
                << endl;
           cout << "\t>> Enter your option: ";
           cin >> option;
-          system("cls");
+          // system("cls");
           switch (option)
           {
           case 1:
@@ -396,6 +406,7 @@ void student_management()
                system("pause");
                break;
           case 5:
+               cin.ignore(); // l clear buffer
                return;
                break;
           default:
@@ -413,9 +424,10 @@ void staff_sign_up()
      cout << "\tEnter username: ";
      cin.ignore();
      getline(cin, username);
-     cout << "\tEnter phone number: ";
-     getline(cin, phone_number);
+     cout << "\tEnter phone number: "; // :@ Phone number must be unique and never use space while inputting , (delete staff by phone number)
+     cin >> phone_number;
      cout << "\tEnter password: ";
+     cin.ignore();
      getline(cin, password);
      Staff staff;
      staff.username = username;
@@ -652,17 +664,276 @@ void term_n_condition()
           << endl;
 }
 
+void remove_staff_by_phone_number(const string &phone)
+{
+     ifstream inputFile("staff.txt");
+     ofstream tempFile("temp.txt");
+     if (!inputFile || !tempFile)
+     {
+          cout << "\tError onpening the file" << endl;
+          return;
+     }
+     string data;
+     bool found = false;
+     while (getline(inputFile, data))
+     {
+          stringstream ss(data);
+          Staff staff;
+          ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at;
+          if (staff.phone_number == phone)
+          {
+               found = true;
+               continue; // -.- skip writing  this line to the temp file
+          }
+          tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << staff.create_at << endl;
+     }
+     inputFile.close();
+     tempFile.close();
+     remove("staff.txt");
+     rename("temp.txt", "staff.txt");
+     cout << "\tRemoved successfully!" << endl;
+     if (!found)
+     {
+          cout << "\tphone number: " << phone << " not found." << endl;
+     }
+}
+
+void adminnn(int admin_option)
+{
+     Admin admin;
+     int opt_gender;
+     system("cls");
+     cout << "\n\n\n\t\t\tWait a moment..." << endl;
+     sleep(1); // l dalay 5 seconds
+     system("cls");
+     cout << "\n\n\t!We ask you questions to make your system more secure." << endl;
+     cout << "\n\t\tEnter your university name: ";
+     getline(cin >> ws, admin.university_name); // ;-) ws is used to remove whitespace
+     cout << "\t\tEnter your first name: ";
+     getline(cin >> ws, admin.firstname);
+     cout << "\t\tEnter your last name: ";
+     getline(cin >> ws, admin.lastname);
+     cout << "\t\tEnter your age: ";
+     cin >> admin.age;
+inputGender:
+     cout << "\t\t\t[1]. Male" << endl;
+     cout << "\t\t\t[2]. Female" << endl;
+     cout << "\t\tChoose your gender: ";
+     cin >> opt_gender;
+     switch (opt_gender)
+     {
+     case Male:
+          admin.gender = "Male";
+          break;
+     case Felmale:
+          admin.gender = "Female";
+          break;
+     default:
+          cout << "\t\tInvalid option!" << endl;
+          goto inputGender;
+          break;
+     }
+     cout << "\t\tEnter your phone number: ";
+     getline(cin >> ws, admin.phone_num);
+     cout << "\t\tEnter your password: ";
+     getline(cin >> ws, admin.password);
+     cout << "\n\t\tLoading data. Please wait..." << endl;
+     sleep(1.5);
+     system("cls");
+     if ((admin.university_name == UNIVERSITY_NAME) && (admin.firstname == FIRST_NAME) && (admin.lastname == LAST_NAME) && (admin.age == AGE) && (admin.gender == GENDER) && (admin.phone_num == PHONE_NUMBER) && (admin.password == PASSWORD))
+     {
+          cout << "\n\t\tYou have logged in as admin" << endl;
+          while (1)
+          {
+               cout << "\n\t0. Remove staff" << endl;
+               cout << "\t1. View staff " << endl;
+               cout << "\t2. View students" << endl;
+               cout << "\t3. Terms and Conditions" << endl;
+               cout << "\t4. Privacy and policy" << endl;
+               cout << "\t5. Clear Screen" << endl;
+               cout << "\t6. Back" << endl;
+               cout << "\t>> Enter your option: ";
+               cin >> admin_option;
+               cout << endl;
+               if (admin_option == 0)
+               {
+                    string phone_remove; // :-D Enter phone of staff to remove
+                    cout << "\tPlease enter staff's phone number to remove." << endl;
+                    cout << "\tEnter phone number: ";
+                    cin >> phone_remove;
+                    remove_staff_by_phone_number(phone_remove);
+               }
+               else if (admin_option == 1)
+               {
+                    read_staff_file();
+                    cout << "\n\t";
+                    system("pause");
+               }
+               else if (admin_option == 2)
+               {
+                    view_ses();
+                    cout << "\n\t";
+                    system("pause");
+               }
+               else if (admin_option == 3)
+               {
+                    term_n_condition();
+                    cout << "\n\t";
+                    system("pause");
+               }
+               else if (admin_option == 4)
+               {
+                    privacy_n_policy();
+                    cout << "\n\t";
+                    system("pause");
+               }
+               else if (admin_option == 5)
+               {
+                    system("cls");
+               }
+               else if (admin_option == 6)
+                    break;
+
+               else
+               {
+                    cout << "\tInvalid number! Feel free to input again" << endl;
+                    cout << "\n\t";
+                    system("pause");
+               }
+          }
+          cout << endl;
+          system("cls");
+          cout << endl;
+     }
+
+     else
+     {
+          cout << "\t\tWrong input!!";
+     }
+}
+
+void stafff(int option, bool loggedIn = false)
+{
+     while (true)
+     {
+          cout << endl;
+          cout << "\t========== Welcome to our system ==========" << endl;
+          cout << "\n";
+          cout << "\t\t1. Sign in" << endl;
+          cout << "\t\t2. Sign up" << endl;
+          cout << "\t\t3. Exit" << endl
+               << endl;
+          cout << "\t>> Enter your option: ";
+          cin >> option;
+          switch (option)
+          {
+          case 1:
+               loggedIn = staff_sign_in();
+               if (loggedIn)
+               {
+                    system("cls");
+                    cout << "\tSigned in successfully!!" << endl;
+                    student_management();
+               }
+               else
+               {
+                    cout << "khos!!" << endl;
+               }
+               break;
+          case 2:
+               staff_sign_up();
+               student_management();
+               break;
+          case 3:
+               return;
+               break;
+          default:
+               cout << "\tinvalid option" << endl;
+               break;
+          }
+     }
+}
+
+void instruction()
+{
+     // ;-) the rest of instruction....
+     cout << "\n\t\t >>> Sech kdey nae nom <<<\n\n";
+     cout << "\tThere are two roles in the program which are admin and staff. \n\t+ Admin is the one who take control all over staff and be able to delete staff's account as well. The admin can also view staff information and password. So when the staff forget the passsowrd they better contact direactly to admin to get they password or change their information.\n\t+ Staff is the postion which works on students. They can create student, delete student, view student, and take control or the entering of student and leaving of student. So their task is to take responsibility of student. For example, the student lost the vehicle, the staff would  take responsibel for it.\nIf you are admin you need to login first before getting into the program and do staff.\n\n\tHow to login as admin.\n\t1. You must enter university name, first name, last name, gender, phone number ,and password correctly. Those are provided by the developer. So if you feel like changing those stuff, all you have to do if inform to the developer. \n\n\tHow to use our system as staff. \n\tYou have two choices . You can sign in or sign up. \n\n\t";
+     system("pause");
+}
+
+bool continue_or_not(int option)
+{
+     cout << "\n\t\tDo you want to read more or go to the next page" << endl;
+inputAgain:
+     cout << "\t1. Read more" << endl;
+     cout << "\t2. Go to the next page" << endl;
+     cout << "\t>> Enter your option: ";
+     cin >> option;
+     if (option == 1)
+     {
+          cout << "\n\t";
+          return true;
+     }
+     else if (option == 2)
+     {
+          return false; // -.- to exit the loop
+     }
+     else
+     {
+          invalid_option_message();
+          goto inputAgain;
+     }
+}
+
 int main()
 {
-     int option, admin_option, option_one;
+     int option_one, admin_option, option;
      bool loggedIn = false, valid_input = false;
+     system("cls");
+     cout << "\n\n\t\tPlease read the instruction carefully before using our system" << endl;
+     while (1)
+     {
+          int opt, n; // -.- n is for read more instruction or not
+          cout << "\n\t1. How to use it" << endl;
+          cout << "\t2. Term and condition " << endl;
+          cout << "\t3. Policy and privacy" << endl;
+          cout << "\t4. Skip" << endl;
+          cout << "\n\t>> Enter your option: ";
+          cin >> opt;
+          if (opt == 1)
+          {
+               instruction();
+               if (!continue_or_not(n))
+                    break;
+          }
+          else if (opt == 2)
+          {
+
+               term_n_condition();
+               if (!continue_or_not(n))
+                    break;
+          }
+          else if (opt == 3)
+          {
+               privacy_n_policy();
+               if (!continue_or_not(n))
+                    break;
+          }
+          else if (opt == 4)
+               break;
+          else
+          {
+               invalid_option_message();
+          }
+     }
+     cout << "\t";
      // :@ When user input wrong format then this function will run
      while (1)
      {
      inputOption:
-          cout << endl
-               << endl;
-          cout << "\tAre you Staff or Admin?" << endl
+          system("cls");
+          cout << "\n\n\tAre you Staff or Admin?" << endl
                << endl;
           cout << "\t\t1. Admin" << endl;
           cout << "\t\t2. Staff" << endl;
@@ -672,148 +943,11 @@ int main()
           cin >> option_one;
           if (option_one == UserAdmin)
           {
-               Admin admin;
-               int opt_gender;
-               system("cls");
-               cout << "\n\n\n\t\t\tWait a moment..." << endl;
-               sleep(1); // l dalay 5 seconds
-               system("cls");
-               cout << "\n\n\t!We ask you questions to make your system more secure." << endl;
-               cout << "\n\t\tEnter your university name: ";
-               getline(cin >> ws, admin.university_name); // ;-) ws is used to remove whitespace
-               cout << "\t\tEnter your first name: ";
-               getline(cin >> ws, admin.firstname);
-               cout << "\t\tEnter your last name: ";
-               getline(cin >> ws, admin.lastname);
-               cout << "\t\tEnter your age: ";
-               cin >> admin.age;
-          inputGender:
-               cout << "\t\t\t[1]. Male" << endl;
-               cout << "\t\t\t[2]. Female" << endl;
-               cout << "\t\tChoose your gender: ";
-               cin >> opt_gender;
-               switch (opt_gender)
-               {
-               case Male:
-                    admin.gender = "Male";
-                    break;
-               case Felmale:
-                    admin.gender = "Female";
-                    break;
-               default:
-                    cout << "\t\tInvalid option!" << endl;
-                    goto inputGender;
-                    break;
-               }
-               cout << "\t\tEnter your phone number: ";
-               getline(cin >> ws, admin.phone_num);
-               cout << "\t\tEnter your password: ";
-               getline(cin >> ws, admin.password);
-               cout << "\n\t\tLoading data. Please wait..." << endl;
-               sleep(1.5);
-               system("cls");
-               if ((admin.university_name == UNIVERSITY_NAME) && (admin.firstname == FIRST_NAME) && (admin.lastname == LAST_NAME) && (admin.age == AGE) && (admin.gender == GENDER) && (admin.phone_num == PHONE_NUMBER) && (admin.password == PASSWORD))
-               {
-                    cout << "\n\t\tYou have logged in as admin" << endl;
-                    while (1)
-                    {
-                         cout << "\n\t1. View staff " << endl;
-                         cout << "\t2. View students" << endl;
-                         cout << "\t3. Terms and Conditions" << endl;
-                         cout << "\t4. Privacy and policy" << endl;
-                         cout << "\t5. Clear Screen" << endl;
-                         cout << "\t6. Back" << endl;
-                         cout << "\t>> Enter your option: ";
-                         cin >> admin_option;
-                         cout << endl;
-                         if (admin_option == 1)
-                         {
-                              read_staff_file();
-                              cout << "\n\t";
-                              system("pause");
-                         }
-                         else if (admin_option == 2)
-                         {
-                              view_ses();
-                              cout << "\n\t";
-                              system("pause");
-                         }
-                         else if (admin_option == 3)
-                         {
-                              term_n_condition();
-                              cout << "\n\t";
-                              system("pause");
-                         }
-                         else if (admin_option == 4)
-                         {
-                              privacy_n_policy();
-                              cout << "\n\t";
-                              system("pause");
-                         }
-                         else if (admin_option == 5)
-                         {
-                              system("cls");
-                         }
-                         else if (admin_option == 6)
-                              break;
-
-                         else
-                         {
-                              cout << "\tInvalid number! Feel free to input again" << endl;
-                              cout << "\n\t";
-                              system("pause");
-                         }
-                    }
-                    cout << endl;
-                    system("cls");
-                    cout << endl;
-               }
-
-               else
-               {
-                    cout << "\t\tWrong input!!";
-               }
+               adminnn(option);
           }
           else if (option_one == UserStaff)
           {
-               while (true)
-               {
-                    cout << endl;
-                    cout << "\t========== Welcome to our system ==========" << endl;
-                    cout << "\n";
-                    cout << "\t\t1. Sign in" << endl;
-                    cout << "\t\t2. Sign up" << endl;
-                    cout << "\t\t3. Exit" << endl
-                         << endl;
-                    cout << "\t>> Enter your option: ";
-                    cin >> option;
-                    switch (option)
-                    {
-                    case 1:
-                         loggedIn = staff_sign_in();
-                         if (loggedIn)
-                         {
-                              system("cls");
-                              cout << "\tSigned in successfully!!" << endl;
-                              student_management();
-                         }
-                         else
-                         {
-                              cout << "khos!!" << endl;
-                         }
-                         break;
-                    case 2:
-                         staff_sign_up();
-                         student_management();
-                         break;
-                    case 3:
-                         exit(0);
-                         break;
-                    default:
-                         cout << "\tinvalid option" << endl;
-                         break;
-                    }
-               }
+               stafff(option, loggedIn);
           }
           else if (option_one == 3)
           {
