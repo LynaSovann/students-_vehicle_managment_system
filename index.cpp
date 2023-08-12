@@ -194,6 +194,7 @@ void add_student()
      string student_name, student_id, create_at, vehicle_type;
      int price;
      int opt_ve;
+     int total_income = 0;
      cout << "\t=============== You chose adding student into file ===============" << endl
           << endl;
      cout << "\t\tEnter studentname: ";
@@ -234,10 +235,11 @@ inputType:
           cout << "\terror hz" << endl;
           return;
      }
-     studentFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(15) << vehicle_type << left << setw(20) << create_at << price << endl;
+     studentFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(15) << vehicle_type << left << setw(20) << create_at << price << " riel" << endl;
      studentFile.close();
      cout << endl;
      cout << "\t\t\astudent has been added successfully!!" << endl;
+     cout << "\t\tStudent: " << student_name << " has to pay " << price << " riel." << endl << "\t\n";
 }
 
 // <3 remove student when they leave from university
@@ -305,14 +307,15 @@ void view_ses()
      }
      string data;
      int total_student = 0; //<3 Jom noun ses
-     cout << "\t================="
+     int total_income = 0;
+     cout << "\t=========================="
           << "\t"
           << "Student table"
           << "\t"
-          << "=================" << endl;
+          << "==========================" << endl;
      cout << "\t" << left << setw(10) << "ID" << left << setw(20) << "Name" << left << setw(15) << "Type" << left << setw(20) << "Enter at"
           << "Price" << endl;
-     cout << "\t====================================================" << endl
+     cout << "\t==========================================================================" << endl
           << endl;
      while (getline(studentFile, data))
      {
@@ -320,10 +323,9 @@ void view_ses()
           cout << data << endl;
           total_student++;
      }
-     cout << "\n\t====================================================" << endl;
+     cout << "\n\t==========================================================================" << endl;
      cout << "\tTotal students: " << total_student << endl;
-     cout << "\tTotal Income: "
-          << "riel" << endl;
+     cout << "\tTotal Income: "<< total_income << "riel" << endl;
      studentFile.close();
 }
 
@@ -786,17 +788,15 @@ inputGender:
           cout << "\n\t\tYou have logged in as admin" << endl;
           while (1)
           {
-               cout << "\n\t0. Remove staff" << endl;
-               cout << "\t1. View staff " << endl;
-               cout << "\t2. View students" << endl;
-               cout << "\t3. Terms and Conditions" << endl;
-               cout << "\t4. Privacy and policy" << endl;
-               cout << "\t5. Clear Screen" << endl;
-               cout << "\t6. Back" << endl;
+               cout << "\n\t1. Remove staff" << endl;
+               cout << "\t2. View staff " << endl;
+               cout << "\t3. View students" << endl;
+               cout << "\t4. Clear Screen" << endl;
+               cout << "\t5. Back" << endl;
                cout << "\t>> Enter your option: ";
                cin >> admin_option;
                cout << endl;
-               if (admin_option == 0)
+               if (admin_option == 1)
                {
                     string phone_remove; // :-D Enter phone of staff to remove
                     cout << "\tPlease enter staff's phone number to remove." << endl;
@@ -804,41 +804,27 @@ inputGender:
                     cin >> phone_remove;
                     remove_staff_by_phone_number(phone_remove);
                }
-               else if (admin_option == 1)
+               else if (admin_option == 2)
                {
                     read_staff_file();
                     cout << "\n\t";
                     system("pause");
                }
-               else if (admin_option == 2)
+               else if (admin_option == 3)
                {
                     view_ses();
                     cout << "\n\t";
                     system("pause");
                }
-               else if (admin_option == 3)
-               {
-                    term_n_condition();
-                    cout << "\n\t";
-                    system("pause");
-               }
                else if (admin_option == 4)
-               {
-                    privacy_n_policy();
-                    cout << "\n\t";
-                    system("pause");
-               }
-               else if (admin_option == 5)
                {
                     system("cls");
                }
-               else if (admin_option == 6)
+               else if (admin_option == 5)
                     break;
-
                else
                {
-                    cout << "\tInvalid number! Feel free to input again" << endl;
-                    cout << "\n\t";
+                    invalid_option_message();
                     system("pause");
                }
           }
