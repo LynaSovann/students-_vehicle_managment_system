@@ -321,7 +321,7 @@ void view_ses()
      }
      cout << "\n\t==========================================================================" << endl;
      cout << "\tTotal students: " << total_student << endl;
-          cout << "\t==========================================================================" << endl;
+          //a cout << "\t==========================================================================" << endl;
      studentFile.close();
 }
 
@@ -423,7 +423,7 @@ string asterisk_display(char ch, string pw)
           {
                if (!pw.empty())
                {
-                    pw.pop_back();   // -.- remove the last character
+                    pw.erase(pw.size() - 1);   // -.- remove the last character
                     cout << "\b \b"; // -.- remove *
                }
           }
@@ -881,7 +881,7 @@ void instruction()
 {
      // ;-) the rest of instruction....
      cout << "\n\t\t >>> Sech kdey nae nom <<<\n\n";
-     cout << "\tThere are two roles in the program which are admin and staff. \n\t+ Admin is the one who take control all over staff and be able to delete staff's account as well. The admin can also view staff information and password. So when the staff forget the passsowrd they better contact direactly to admin to get they password or change their information.\n\t+ Staff is the postion which works on students. They can create student, delete student, view student, and take control or the entering of student and leaving of student. So their task is to take responsibility of student. For example, the student lost the vehicle, the staff would  take responsibel for it.\nIf you are admin you need to login first before getting into the program and do staff.\n\n\tHow to login as admin.\n\t1. You must enter university name, first name, last name, gender, phone number ,and password correctly. Those are provided by the developer. So if you feel like changing those stuff, all you have to do if inform to the developer. \n\n\tHow to use our system as staff. \n\tYou have two choices . You can sign in or sign up. \n\n\t";
+     cout << "\tThere are two roles in the program which are admin and staff. \n\t+ Admin is the one who take control all over staff and be able to delete staff's account as well. The admin can also view staff information and password. So when the staff forget the passsowrd they better contact direactly to admin to get they password or change their information.\n\t+ Staff is the postion which works on students. They can create student, delete student, view student, and take control or the entering of student and leaving of student. So their task is to take responsibility of student. For example, the student lost the vehicle, the staff would  take responsibel for it.\nIf you are admin you need to login first before getting into the program and do stuff.\n\n\tHow to login as admin.\n\t You must enter university name, first name, last name, gender, phone number ,and password correctly. Those are provided by the developer. So if you feel like changing those stuff, all you have to do if inform to the developer.\n\tAfter logging into the program you are authorized as an admin. You can view staff, student and delete staff.\n\t.... \n\n\tHow to use our system as staff. \n\tYou have two choices . You can sign in or sign up. \n\tSign up means create account(Note: Staff's name never have space). And sign in is to log in to your account.  \n\tIn case, you forget yourr password , you can contact the admin to get your password back or tell admin to delete your account. \n\n\t *** Dont be serious, if you have any problem of using our system feel free to contact the developer direactly to the email (unknown.kid@gmail.com)\n\n\t";
      system("pause");
 }
 
@@ -921,7 +921,8 @@ int main()
           cout << "\n\t1. How to use it" << endl;
           cout << "\t2. Term and condition " << endl;
           cout << "\t3. Policy and privacy" << endl;
-          cout << "\t4. Skip" << endl;
+          cout << "\t4. About developer" << endl;
+          cout << "\t5. Skip" << endl;
           cout << "\n\t>> Enter your option: ";
           cin >> opt;
           if (opt == 1)
@@ -943,7 +944,13 @@ int main()
                if (!continue_or_not(n))
                     break;
           }
-          else if (opt == 4)
+          else if (opt == 4) {
+               cout << "\n\tThere are 5 members in our team.\n";
+               cout << "\t\tSovann Lyna(Project management)\n";
+               cout << "\t\t";
+               cout << "......";
+          }
+          else if (opt == 5)
                break;
           else
           {
