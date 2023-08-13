@@ -417,14 +417,14 @@ void student_management()
 
 string asterisk_display(char ch, string pw)
 {
-     while ((ch = _getch()) != '\r')
+     while ((ch = _getch()) != 13)
      {
-          if (ch == '\b') // -.- pel enter jub backspace let it remove one character
+          if (ch == '\b') // -.- ពេលជួប backspace let it remove one character
           {
                if (!pw.empty())
                {
                     pw.erase(pw.size() - 1);   // -.- remove the last character
-                    cout << "\b \b"; // -.- remove *
+                    cout << "\b \b"; // -.- remove (asterisk) *
                }
           }
           else
@@ -436,13 +436,11 @@ string asterisk_display(char ch, string pw)
       return pw;
 }
 
-// :@ in progress function
-
 void staff_sign_up()
 {
      string username, password, phone_number, pass;
      char ch1, ch2; // :-D ch1 and ch2 is used to represent ******
-     cout << "\tEnter username: ";
+     cout << "\n\tEnter username: ";
      cin.ignore();
      getline(cin, username);
      cout << "\tEnter phone number: "; // :@ Phone number must be unique and never use space while inputting , (delete staff by phone number)
@@ -450,10 +448,11 @@ void staff_sign_up()
      inputPassword:
      cout << "\tEnter password: ";
      pass = asterisk_display(ch1, pass);
-     //* debugging if pasword does not output correctly
+     //* debugging if the pasword does not output correctly
      /// cout << "\npassword entered: " <<  pass << endl;
      cout << "\n\tEnter confirm password: ";
      password = asterisk_display(ch2, password);
+     //* we use it to debug sometimes
      // cout << "\npass " << pass << endl;
      // cout << "cpass " << password << endl;
      // system("pause");
@@ -471,7 +470,7 @@ void staff_sign_up()
           staff.username = username;
           staff.phone_number = phone_number;
           staff.password = password;
-          ofstream staffFile("staff.txt", ios::app);
+          ofstream staffFile("staff.txt", ios::app); //* open file staff.txt
           string create_at = get_current_time();
           if (!staffFile)
           {
