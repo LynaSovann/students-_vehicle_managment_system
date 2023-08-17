@@ -62,6 +62,15 @@ struct Staff
      int price;
 };
 
+struct Student
+{
+     string student_id;
+     string student_name;
+     string vehicle_type;
+     string create_at;
+     int price;
+};
+
 void invalid_option_message()
 {
      cout << "\tInvalid option!" << endl;
@@ -124,6 +133,27 @@ string get_current_time()
      return time;
 }
 
+string asterisk_display(char ch, string pw)
+{
+     while ((ch = _getch()) != 13)
+     {
+          if (ch == '\b') 
+          {
+               if (!pw.empty())
+               {
+                    pw.erase(pw.size() - 1);
+                    cout << "\b \b";       
+               }
+          }
+          else
+          {
+               pw += ch;
+               cout << '*';
+          }
+     }
+     return pw;
+}
+
 // l need to add total staff
 void read_staff_file()
 {
@@ -153,14 +183,14 @@ void read_staff_file()
 bool staff_sign_in()
 {
      string username, password, phone_number;
+     char ch1;
      cout << "\tEnter username: ";
      cin.ignore();
      getline(cin, username);
      cout << "\tEnter phone number: ";
      cin >> phone_number;
      cout << "\tEnter password: ";
-     cin.ignore();
-     getline(cin, password);
+     password = asterisk_display(ch1, password);
      ifstream staffFile("staff.txt");
      if (!staffFile)
      {
@@ -206,6 +236,51 @@ inputType:
      cout << "\t\t\t[3]. Car" << endl;
      cout << "\t\tEnter student's vehicle type: ";
      cin >> opt_ve;
+     // duplicate id
+     //   Staff staff;
+     // staff.username = username;
+     // staff.phone_number = phone_number;
+     // staff.password = password;
+     // string create_at = get_current_time();
+     //       ifstream staffFile("staff.txt");
+     //      ofstream tempFile("temp.txt", ios::app);
+
+     //      if (!staffFile || !tempFile)
+     //      {
+     //           cout << "\tError onpening the file" << endl;
+     //           return;
+     //      }
+     //      string data;
+     //      bool found = false;
+     //      while (getline(staffFile, data))
+     //      {
+     //           stringstream ss(data);
+     //           ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at;
+     //           if (staff.phone_number == phone_number)
+     //           {
+     //                found = true;
+     //           }
+     //           tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl; //* write into file temp
+     //      }
+
+     //      if (found == true)
+     //      {
+     //           cout << "\n\tInvalid! This phone number is already exited!!" << endl;
+     //           sleep(1);
+     //      }
+     //      else
+     //      {
+     //           tempFile << "\t" << left << setw(21) << username << left << setw(15) << phone_number << left << setw(15) << password << create_at << endl;
+     //           system("pause");
+     //           cout << "\n\tSuccessfully created account\n";
+     //      }
+     //      staffFile.close();
+     //      tempFile.close();
+     //      remove("staff.txt");
+     //      rename("temp.txt", "staff.txt");
+     //      if (!found)
+     //           student_management();
+     // }
      switch (opt_ve)
      {
      case Bike:
@@ -226,17 +301,59 @@ inputType:
           break;
      }
      create_at = get_current_time();
-     ofstream studentFile("student.txt", ios::app);
-     if (!studentFile)
+
+     Student student;
+     ifstream studentFile("student.txt");
+     ofstream tempFile("temp.txt", ios::app);
+
+     if (!studentFile || !tempFile)
      {
-          cout << "\terror hz" << endl;
+          cout << "\tError onpening the file" << endl;
           return;
      }
-     studentFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(15) << vehicle_type << left << setw(20) << create_at << price << " riel" << endl;
+     string data;
+     bool found = false;
+     while (getline(studentFile, data))
+     {
+          stringstream ss(data);
+          ss >> student.student_id >> student.student_name >> student.vehicle_type >> student.create_at >> student.create_at;
+          if (student.student_id == student_id)
+          {
+               found = true;
+          }
+          tempFile << "\t" << left << setw(10) << student.student_id << left << setw(20) << student.student_name << left << setw(15) << student.vehicle_type << left << setw(20) << student.create_at << student.price << " riel" << endl;
+     }
+
+     if (found == true)
+     {
+          cout << "\n\tInvalid! This id is already exited!!" << endl;
+          sleep(1);
+     }
+     else
+     {
+          tempFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(15) << vehicle_type << left << setw(20) << create_at << price << " riel" << endl;
+          cout << "\t\t\astudent has been added successfully!!" << endl;
+          cout << "\t\tStudent: " << student_name << " has to pay " << price << " riel." << endl
+               << "\t\n";
+          cout << "\n\tSuccessfully added student\n";
+     }
      studentFile.close();
-     cout << endl;
-     cout << "\t\t\astudent has been added successfully!!" << endl;
-     cout << "\t\tStudent: " << student_name << " has to pay " << price << " riel." << endl << "\t\n";
+     tempFile.close();
+     remove("student.txt");
+     rename("temp.txt", "student.txt");
+
+     // ofstream studentFile("student.txt", ios::app);
+     // if (!studentFile)
+     // {
+     //      cout << "\terror hz" << endl;
+     //      return;
+     // }
+     // studentFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(15) << vehicle_type << left << setw(20) << create_at << price << " riel" << endl;
+     // studentFile.close();
+     // cout << endl;
+     // cout << "\t\t\astudent has been added successfully!!" << endl;
+     // cout << "\t\tStudent: " << student_name << " has to pay " << price << " riel." << endl
+     //      << "\t\n";
 }
 
 // <3 remove student when they leave from university
@@ -303,7 +420,7 @@ void view_ses()
           return;
      }
      string data;
-     int total_student = 0; //<3 Jom noun ses
+     int total_student = 0; //<3 amount of student
      cout << "\t=========================="
           << "\t"
           << "Student table"
@@ -321,7 +438,7 @@ void view_ses()
      }
      cout << "\n\t==========================================================================" << endl;
      cout << "\tTotal students: " << total_student << endl;
-          //a cout << "\t==========================================================================" << endl;
+     //* cout << "\t==========================================================================" << endl;
      studentFile.close();
 }
 
@@ -377,7 +494,8 @@ void student_management()
           cout << "\t\t2. Remove student" << endl;
           cout << "\t\t3. View all students " << endl;
           cout << "\t\t4. Search for student" << endl;
-          cout << "\t\t5. Back" << endl
+          cout << "\t\t5. sign out" << endl;
+          cout << "\t\t6. Clear screen" << endl
                << endl;
           cout << "\t>> Enter your option: ";
           cin >> option;
@@ -406,34 +524,17 @@ void student_management()
                break;
           case 5:
                cin.ignore(); // l clear buffer
+               system("cls");
                return;
+               break;
+          case 6:
+               system("cls");
                break;
           default:
                cout << "\tInvalid option!! Please try again" << endl;
                break;
           }
      }
-}
-
-string asterisk_display(char ch, string pw)
-{
-     while ((ch = _getch()) != 13)
-     {
-          if (ch == '\b') // -.- ពេលជួប backspace let it remove one character
-          {
-               if (!pw.empty())
-               {
-                    pw.erase(pw.size() - 1);   // -.- remove the last character
-                    cout << "\b \b"; // -.- remove (asterisk) *
-               }
-          }
-          else
-          {
-               pw += ch;
-               cout << '*';
-          }
-     }
-      return pw;
 }
 
 void staff_sign_up()
@@ -445,7 +546,7 @@ void staff_sign_up()
      getline(cin, username);
      cout << "\tEnter phone number: "; // :@ Phone number must be unique and never use space while inputting , (delete staff by phone number)
      cin >> phone_number;
-     inputPassword:
+inputPassword:
      cout << "\tEnter password: ";
      pass = asterisk_display(ch1, pass);
      //* debugging if the pasword does not output correctly
@@ -470,19 +571,46 @@ void staff_sign_up()
           staff.username = username;
           staff.phone_number = phone_number;
           staff.password = password;
-          ofstream staffFile("staff.txt", ios::app); //* open file staff.txt
           string create_at = get_current_time();
-          if (!staffFile)
+
+          ifstream staffFile("staff.txt");
+          ofstream tempFile("temp.txt", ios::app);
+
+          if (!staffFile || !tempFile)
           {
-               cout << "\terror to open staff file" << endl;
+               cout << "\tError onpening the file" << endl;
                return;
           }
-          staffFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl;
+          string data;
+          bool found = false;
+          while (getline(staffFile, data))
+          {
+               stringstream ss(data);
+               ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at;
+               if (staff.phone_number == phone_number)
+               {
+                    found = true;
+               }
+               tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl; //* write into file temp
+          }
+
+          if (found == true)
+          {
+               cout << "\n\tInvalid! This phone number is already exited!!" << endl;
+               sleep(1);
+          }
+          else
+          {
+               tempFile << "\t" << left << setw(21) << username << left << setw(15) << phone_number << left << setw(15) << password << create_at << endl;
+               system("pause");
+               cout << "\n\tSuccessfully created account\n";
+          }
           staffFile.close();
-          cout << "\n\tYou created new accound successfully!!" << endl;
-          cout << "\n\t";
-          system("pause");
-          student_management();
+          tempFile.close();
+          remove("staff.txt");
+          rename("temp.txt", "staff.txt");
+          if (!found)
+               student_management();
      }
 }
 
@@ -704,20 +832,20 @@ void term_n_condition()
 
 void remove_staff_by_phone_number(const string &phone)
 {
-     ifstream inputFile("staff.txt");
-     ofstream tempFile("temp.txt");
+     ifstream inputFile("staff.txt"); //* open the file
+     ofstream tempFile("temp.txt");   //* create the temp file for writing sth to it
      if (!inputFile || !tempFile)
      {
           cout << "\tError onpening the file" << endl;
           return;
      }
-     string data;
+     string data; //* it is declared to store each line read from file staff.txt
      bool found = false;
-     while (getline(inputFile, data))
+     while (getline(inputFile, data)) //* this wile loop is used to read each line frome the file staff.txt
      {
           stringstream ss(data);
           Staff staff;
-          ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at;
+          ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at; //* >> read something from the stringstream object
           if (staff.phone_number == phone)
           {
                found = true;
@@ -787,7 +915,7 @@ inputGender:
                cout << "\t2. View staff " << endl;
                cout << "\t3. View students" << endl;
                cout << "\t4. Clear Screen" << endl;
-               cout << "\t5. Back" << endl;
+               cout << "\t5. Sign out" << endl;
                cout << "\t>> Enter your option: ";
                cin >> admin_option;
                cout << endl;
@@ -864,7 +992,6 @@ void stafff(int option, bool loggedIn = false)
                break;
           case 2:
                staff_sign_up();
-               student_management();
                break;
           case 3:
                return;
@@ -943,11 +1070,16 @@ int main()
                if (!continue_or_not(n))
                     break;
           }
-          else if (opt == 4) {
+          else if (opt == 4)
+          {
                cout << "\n\tThere are 5 members in our team.\n";
-               cout << "\t\tSovann Lyna(Project management)\n";
-               cout << "\t\t";
-               cout << "......";
+               cout << "\t\tLyna\n";
+               cout << "\tSomnang\n";
+               cout << "\tSehya\n";
+               cout << "\tSela\n";
+               cout << "\tSim\n";
+               cout << "\tThean\n";
+               cout << "\nSros\n";
           }
           else if (opt == 5)
                break;
