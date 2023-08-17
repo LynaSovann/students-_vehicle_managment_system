@@ -137,12 +137,12 @@ string asterisk_display(char ch, string pw)
 {
      while ((ch = _getch()) != 13)
      {
-          if (ch == '\b') 
+          if (ch == '\b')
           {
                if (!pw.empty())
                {
                     pw.erase(pw.size() - 1);
-                    cout << "\b \b";       
+                    cout << "\b \b";
                }
           }
           else
@@ -236,51 +236,6 @@ inputType:
      cout << "\t\t\t[3]. Car" << endl;
      cout << "\t\tEnter student's vehicle type: ";
      cin >> opt_ve;
-     // duplicate id
-     //   Staff staff;
-     // staff.username = username;
-     // staff.phone_number = phone_number;
-     // staff.password = password;
-     // string create_at = get_current_time();
-     //       ifstream staffFile("staff.txt");
-     //      ofstream tempFile("temp.txt", ios::app);
-
-     //      if (!staffFile || !tempFile)
-     //      {
-     //           cout << "\tError onpening the file" << endl;
-     //           return;
-     //      }
-     //      string data;
-     //      bool found = false;
-     //      while (getline(staffFile, data))
-     //      {
-     //           stringstream ss(data);
-     //           ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at;
-     //           if (staff.phone_number == phone_number)
-     //           {
-     //                found = true;
-     //           }
-     //           tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl; //* write into file temp
-     //      }
-
-     //      if (found == true)
-     //      {
-     //           cout << "\n\tInvalid! This phone number is already exited!!" << endl;
-     //           sleep(1);
-     //      }
-     //      else
-     //      {
-     //           tempFile << "\t" << left << setw(21) << username << left << setw(15) << phone_number << left << setw(15) << password << create_at << endl;
-     //           system("pause");
-     //           cout << "\n\tSuccessfully created account\n";
-     //      }
-     //      staffFile.close();
-     //      tempFile.close();
-     //      remove("staff.txt");
-     //      rename("temp.txt", "staff.txt");
-     //      if (!found)
-     //           student_management();
-     // }
      switch (opt_ve)
      {
      case Bike:
@@ -341,19 +296,6 @@ inputType:
      tempFile.close();
      remove("student.txt");
      rename("temp.txt", "student.txt");
-
-     // ofstream studentFile("student.txt", ios::app);
-     // if (!studentFile)
-     // {
-     //      cout << "\terror hz" << endl;
-     //      return;
-     // }
-     // studentFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(15) << vehicle_type << left << setw(20) << create_at << price << " riel" << endl;
-     // studentFile.close();
-     // cout << endl;
-     // cout << "\t\t\astudent has been added successfully!!" << endl;
-     // cout << "\t\tStudent: " << student_name << " has to pay " << price << " riel." << endl
-     //      << "\t\n";
 }
 
 // <3 remove student when they leave from university
