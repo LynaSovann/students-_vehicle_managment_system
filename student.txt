@@ -1,2 +1,2 @@
-	012       lyna                Motorbike      0                   0 riel
-	001       testtest            Bike           PM                  0 riel
+	003       lyna                Car            23:55:27 PM         1000 riel
+	004       lynn                Car            23:55:46 PM         1000 riel

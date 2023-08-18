@@ -6,8 +6,8 @@
 #include <algorithm>
 #include <iomanip>
 #include <string>
-#include <unistd.h> // ;-) sleep();
-#include <conio.h>  // ;-) getch();
+#include <unistd.h>
+#include <conio.h>
 using namespace std;
 
 // :-D Global Scope declaration
@@ -16,13 +16,13 @@ const string FIRST_NAME = "Jonh";
 const string LAST_NAME = "Doe";
 const int AGE = 20;
 const string GENDER = "Male";
-const string PHONE_NUMBER = "123456789";
+const string PHONE_NUMBER = "+885123456789";
 const string PASSWORD = "jonh_doe_sweet_boy_168";
 
 // :-D Enum
 enum Role
 {
-     NoneRole, // :-* NoneRole has been declared because enum starts from index 0. i need userAdmin to be index 1.
+     NoneRole,
      UserAdmin,
      UserStaff
 };
@@ -77,7 +77,6 @@ void invalid_option_message()
      cout << "\tInput option again" << endl;
 }
 
-// <3 get current time from locallhost (pc)
 string get_current_time()
 {
      time_t currentTime = time(0);
@@ -154,7 +153,6 @@ string asterisk_display(char ch, string pw)
      return pw;
 }
 
-// l need to add total staff
 void read_staff_file()
 {
      ifstream staffFile("staff.txt");
@@ -179,11 +177,14 @@ void read_staff_file()
      staffFile.close();
 }
 
-// <3 done completely
 bool staff_sign_in()
 {
      string username, password, phone_number;
      char ch1;
+     system("cls");
+     cout << "\n\t\t >> You chose sign as a staff." << endl
+          << endl;
+
      cout << "\tEnter username: ";
      cin.ignore();
      getline(cin, username);
@@ -219,92 +220,103 @@ bool staff_sign_in()
 
 void add_student()
 {
-     string student_name, student_id, create_at, vehicle_type;
+     string student_id, student_name, vehicle_type, time;
      int price;
      int opt_ve;
-     cout << "\t=============== You chose adding student into file ===============" << endl
+     cout << "\n\t\t >> You chose option \"[1]. add student\". " << endl
           << endl;
-     cout << "\t\tEnter studentname: ";
+     cout << "\t\tEnter student ID: ";
      cin.ignore();
-     getline(cin, student_name);
-     cout << "\t\tEnter student id: ";
      getline(cin, student_id);
-     cout << "\t\tThere are 3 type of vehicles for students" << endl;
-inputType:
+     cout << "\t\tEnter student name: ";
+     getline(cin, student_name);
+     cout << "\t\tThere are 3 types of vehicles for students" << endl;
      cout << "\t\t\t[1]. Bike" << endl;
-     cout << "\t\t\t[2]. Motorbype" << endl;
+     cout << "\t\t\t[2]. Motorbike" << endl;
      cout << "\t\t\t[3]. Car" << endl;
      cout << "\t\tEnter student's vehicle type: ";
      cin >> opt_ve;
+
      switch (opt_ve)
      {
-     case Bike:
+     case 1:
           vehicle_type = "Bike";
           price = 100;
           break;
-     case Motorbike:
+     case 2:
           vehicle_type = "Motorbike";
           price = 300;
           break;
-     case Car:
+     case 3:
           vehicle_type = "Car";
           price = 1000;
           break;
      default:
           cout << "\t\tInvalid option!" << endl;
-          goto inputType;
-          break;
+          return;
      }
-     create_at = get_current_time();
+
+     time = get_current_time();
 
      Student student;
+     student.student_id = student_id;
+     student.student_name = student_name;
+     student.vehicle_type = vehicle_type;
+     student.price = price;
+     student.create_at = time;
+
      ifstream studentFile("student.txt");
      ofstream tempFile("temp.txt", ios::app);
 
      if (!studentFile || !tempFile)
      {
-          cout << "\tError onpening the file" << endl;
+          cout << "\tError opening the file" << endl;
           return;
      }
+
      string data;
      bool found = false;
+
      while (getline(studentFile, data))
      {
           stringstream ss(data);
-          ss >> student.student_id >> student.student_name >> student.vehicle_type >> student.create_at >> student.create_at;
+          ss >> student.student_id >> student.student_name >> student.vehicle_type >> student.create_at >> student.price;
           if (student.student_id == student_id)
           {
                found = true;
+               break;
           }
           tempFile << "\t" << left << setw(10) << student.student_id << left << setw(20) << student.student_name << left << setw(15) << student.vehicle_type << left << setw(20) << student.create_at << student.price << " riel" << endl;
      }
 
-     if (found == true)
+     studentFile.close();
+     tempFile.close();
+
+     if (found)
      {
-          cout << "\n\tInvalid! This id is already exited!!" << endl;
-          sleep(1);
+          cout << "\n\tInvalid! This ID already exists." << endl;
+          remove("temp.txt");
      }
      else
      {
-          tempFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(15) << vehicle_type << left << setw(20) << create_at << price << " riel" << endl;
-          cout << "\t\t\astudent has been added successfully!!" << endl;
-          cout << "\t\tStudent: " << student_name << " has to pay " << price << " riel." << endl
-               << "\t\n";
-          cout << "\n\tSuccessfully added student\n";
+          ofstream studentFile("student.txt", ios::app);
+          studentFile << "\t" << left << setw(10) << student_id << left << setw(20) << student_name << left << setw(15) << vehicle_type << left << setw(20) << time << price << " riel" << endl;
+          studentFile.close();
+          cout << "\n\t\t\tStudent: " << student_name << " has to pay " << price << " riel."
+               << "\n\t\n";
+          cout << "\n\t\tPress any key after the student pays the price\n";
+          getch();
+          cout << "\n\t\tAdded successfully!!" << endl;
      }
-     studentFile.close();
-     tempFile.close();
-     remove("student.txt");
-     rename("temp.txt", "student.txt");
 }
 
-// <3 remove student when they leave from university
 void remove_student()
 {
-     string studentName;
-     cout << "\t>> Note: Remove function is used to remove those who leave unversity" << endl;
-     cout << "\tEnter Student name to remove from file: ";
-     cin >> studentName;
+     string student_id;
+     cout << "\n\t>> You chose removing student into file. " << endl
+          << endl;
+     cout << "\tEnter Student id to remove from file: ";
+     cin >> student_id;
      cin.seekg(0, ios::end);
      cin.clear();
      ifstream studentFile("student.txt");
@@ -324,9 +336,9 @@ void remove_student()
      while (getline(studentFile, data))
      {
           stringstream ss(data);
-          string studentId_stored, student_name_stored, type_vehicle_stored, time_stored;
-          ss >> studentId_stored >> student_name_stored >> type_vehicle_stored >> time_stored;
-          if (student_name_stored != studentName)
+          string studentId_stored, student_name_stored, type_vehicle_stored, time_stored, price_stored;
+          ss >> studentId_stored >> student_name_stored >> type_vehicle_stored >> time_stored >> price_stored;
+          if (studentId_stored != student_id)
           {
                tempFile << data << endl;
           }
@@ -344,7 +356,7 @@ void remove_student()
 
      if (student_found)
      {
-          cout << "\tStudent has been removed successfully." << endl;
+          cout << "\tremoved successfully." << endl;
      }
      else
      {
@@ -352,7 +364,6 @@ void remove_student()
      }
 }
 
-// l in progress
 void view_ses()
 {
      ifstream studentFile("student.txt");
@@ -362,7 +373,7 @@ void view_ses()
           return;
      }
      string data;
-     int total_student = 0; //<3 amount of student
+     int total_student = 0;
      cout << "\t=========================="
           << "\t"
           << "Student table"
@@ -379,13 +390,12 @@ void view_ses()
           total_student++;
      }
      cout << "\n\t==========================================================================" << endl;
-     cout << "\tTotal students: " << total_student << endl;
-     //* cout << "\t==========================================================================" << endl;
+     cout << "\n\tTotal students: " << total_student << endl
+          << endl;
+     ;
      studentFile.close();
 }
 
-// l search by id
-// -.- Duaplication is still valid, => fix it
 void search_student()
 {
      string search_id;
@@ -429,19 +439,20 @@ void student_management()
      int option;
      while (1)
      {
+          system("cls");
           cout << endl;
-          cout << "\t============ Students' vehicles management system ========== " << endl
+          cout << "\t================= Students' vehicles management =============== " << endl
                << endl;
           cout << "\t\t1. Add student" << endl;
           cout << "\t\t2. Remove student" << endl;
           cout << "\t\t3. View all students " << endl;
           cout << "\t\t4. Search for student" << endl;
-          cout << "\t\t5. sign out" << endl;
-          cout << "\t\t6. Clear screen" << endl
+          cout << "\t\t5. sign out" << endl
                << endl;
+          ;
           cout << "\t>> Enter your option: ";
           cin >> option;
-          // system("cls");
+          system("cls");
           switch (option)
           {
           case 1:
@@ -465,12 +476,9 @@ void student_management()
                system("pause");
                break;
           case 5:
-               cin.ignore(); // l clear buffer
+               cin.ignore();
                system("cls");
                return;
-               break;
-          case 6:
-               system("cls");
                break;
           default:
                cout << "\tInvalid option!! Please try again" << endl;
@@ -481,24 +489,20 @@ void student_management()
 
 void staff_sign_up()
 {
-     string username, password, phone_number, pass;
-     char ch1, ch2; // :-D ch1 and ch2 is used to represent ******
+     string username, password, phone_number, pass, time;
+     char ch1, ch2;
      cout << "\n\tEnter username: ";
      cin.ignore();
      getline(cin, username);
-     cout << "\tEnter phone number: "; // :@ Phone number must be unique and never use space while inputting , (delete staff by phone number)
+     cout << "\tEnter phone number: ";
      cin >> phone_number;
+
 inputPassword:
      cout << "\tEnter password: ";
      pass = asterisk_display(ch1, pass);
-     //* debugging if the pasword does not output correctly
-     /// cout << "\npassword entered: " <<  pass << endl;
      cout << "\n\tEnter confirm password: ";
      password = asterisk_display(ch2, password);
-     //* we use it to debug sometimes
-     // cout << "\npass " << pass << endl;
-     // cout << "cpass " << password << endl;
-     // system("pause");
+
      if (pass != password)
      {
           cout << "\n\t!Confirm password doesn't match with the previous password";
@@ -509,22 +513,25 @@ inputPassword:
      }
      else
      {
+          time = get_current_time();
           Staff staff;
           staff.username = username;
           staff.phone_number = phone_number;
           staff.password = password;
-          string create_at = get_current_time();
+          staff.create_at = time;
 
           ifstream staffFile("staff.txt");
           ofstream tempFile("temp.txt", ios::app);
 
           if (!staffFile || !tempFile)
           {
-               cout << "\tError onpening the file" << endl;
+               cout << "\tError opening the file" << endl;
                return;
           }
+
           string data;
           bool found = false;
+
           while (getline(staffFile, data))
           {
                stringstream ss(data);
@@ -532,27 +539,30 @@ inputPassword:
                if (staff.phone_number == phone_number)
                {
                     found = true;
+                    break;
                }
-               tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << create_at << endl; //* write into file temp
+               tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << staff.create_at << endl;
           }
 
-          if (found == true)
+          staffFile.close();
+          tempFile.close();
+
+          if (found)
           {
-               cout << "\n\tInvalid! This phone number is already exited!!" << endl;
+               cout << "\n\tInvalid! This phone number already exists!" << endl;
+               remove("temp.txt");
                sleep(1);
           }
           else
           {
-               tempFile << "\t" << left << setw(21) << username << left << setw(15) << phone_number << left << setw(15) << password << create_at << endl;
+               ofstream staffFile("staff.txt", ios::app);
+               staffFile << "\t" << left << setw(21) << username << left << setw(15) << phone_number << left << setw(15) << password << time << endl;
+               staffFile.close();
                system("pause");
                cout << "\n\tSuccessfully created account\n";
-          }
-          staffFile.close();
-          tempFile.close();
-          remove("staff.txt");
-          rename("temp.txt", "staff.txt");
-          if (!found)
+               remove("temp.txt");
                student_management();
+          }
      }
 }
 
@@ -908,8 +918,9 @@ void stafff(int option, bool loggedIn = false)
 {
      while (true)
      {
+          system("cls");
           cout << endl;
-          cout << "\t========== Welcome to our system ==========" << endl;
+          cout << "\t========== Staff Options ==========" << endl;
           cout << "\n";
           cout << "\t\t1. Sign in" << endl;
           cout << "\t\t2. Sign up" << endl;
@@ -925,6 +936,8 @@ void stafff(int option, bool loggedIn = false)
                {
                     system("cls");
                     cout << "\tSigned in successfully!!" << endl;
+                    cout << "\t";
+                    system("pause");
                     student_management();
                }
                else
@@ -955,7 +968,9 @@ void instruction()
 
 bool continue_or_not(int option)
 {
-     cout << "\n\t\tDo you want to read more or go to the next page" << endl;
+     system("cls");
+     cout << "\n\t\tDo you want to read more or go to the next page?\n"
+          << endl;
 inputAgain:
      cout << "\t1. Read more" << endl;
      cout << "\t2. Go to the next page" << endl;
@@ -964,6 +979,7 @@ inputAgain:
      if (option == 1)
      {
           cout << "\n\t";
+          system("cls");
           return true;
      }
      else if (option == 2)
@@ -982,15 +998,16 @@ int main()
      int option_one, admin_option, option;
      bool loggedIn = false, valid_input = false;
      system("cls");
-     cout << "\n\n\t\tPlease read the instruction carefully before using our system" << endl;
+     cout << "\n========================== Welcome to our system ==========================\n";
+     cout << "\n\n\tPlease read the instruction carefully before using our system" << endl;
      while (1)
      {
           int opt, n; // -.- n is for read more instruction or not
-          cout << "\n\t1. How to use it" << endl;
-          cout << "\t2. Term and condition " << endl;
-          cout << "\t3. Policy and privacy" << endl;
-          cout << "\t4. About developer" << endl;
-          cout << "\t5. Skip" << endl;
+          cout << "\n\t\t1. How to use it" << endl;
+          cout << "\t\t2. Term and condition " << endl;
+          cout << "\t\t3. Policy and privacy" << endl;
+          cout << "\t\t4. About developer" << endl;
+          cout << "\t\t5. Skip" << endl;
           cout << "\n\t>> Enter your option: ";
           cin >> opt;
           if (opt == 1)
@@ -1014,6 +1031,7 @@ int main()
           }
           else if (opt == 4)
           {
+               system("cls");
                cout << "\n\tThere are 5 members in our team.\n";
                cout << "\t\tLyna\n";
                cout << "\tSomnang\n";
@@ -1021,7 +1039,7 @@ int main()
                cout << "\tSela\n";
                cout << "\tSim\n";
                cout << "\tThean\n";
-               cout << "\nSros\n";
+               cout << "\tSros\n";
           }
           else if (opt == 5)
                break;
