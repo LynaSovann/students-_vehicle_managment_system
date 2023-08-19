@@ -867,8 +867,39 @@ void update_staff()
                }
                else if (opt == "2")
                {
+                    string newPhoneNumber;
                     cout << "\n\tEnter updated phone number: ";
-                    cin >> staff.phone_number;
+                    getline(cin, newPhoneNumber);
+
+                    bool duplicateNumber = false;
+                    ifstream duplicateCheckFile("staff.txt");
+                    if (duplicateCheckFile)
+                    {
+                         string data;
+                         while (getline(duplicateCheckFile, data))
+                         {
+                              stringstream ss(data);
+                              string username, phoneNum, password, createdAt;
+                              ss >> username >> phoneNum >> password >> createdAt;
+                              if (phoneNum == newPhoneNumber && phoneNum != phone)
+                              {
+                                   duplicateNumber = true;
+                                   break;
+                              }
+                         }
+                         duplicateCheckFile.close();
+                    }
+
+                    if (duplicateNumber)
+                    {
+                         cout << "\n\tPhone number '" << newPhoneNumber << "' already exists. Cannot update." << endl;
+                         remove("temp.txt");
+                         return;
+                    }
+                    else
+                    {
+                         staff.phone_number = newPhoneNumber;
+                    }
                }
                else if (opt == "3")
                {
