@@ -434,6 +434,10 @@ void search_student()
      studentFile.close();
 }
 
+void update_student()
+{
+}
+
 void student_management()
 {
      int option;
@@ -447,7 +451,8 @@ void student_management()
           cout << "\t\t2. Remove student" << endl;
           cout << "\t\t3. View all students " << endl;
           cout << "\t\t4. Search for student" << endl;
-          cout << "\t\t5. sign out" << endl
+          cout << "\t\t5. Update student" << endl;
+          cout << "\t\t6. sign out" << endl
                << endl;
           ;
           cout << "\t>> Enter your option: ";
@@ -477,6 +482,10 @@ void student_management()
                system("pause");
                break;
           case 5:
+               update_student();
+               cout << "\t";
+               system("pause");
+          case 6:
                cin.ignore();
                system("cls");
                return;
@@ -785,24 +794,36 @@ void term_n_condition()
 
 void remove_staff_by_phone_number(const string &phone)
 {
-     ifstream inputFile("staff.txt"); //* open the file
-     ofstream tempFile("temp.txt");   //* create the temp file for writing sth to it
+     ifstream inputFile("staff.txt");
+     ofstream tempFile("temp.txt");
      if (!inputFile || !tempFile)
      {
-          cout << "\tError onpening the file" << endl;
+          cout << "\tError opening the file" << endl;
           return;
      }
-     string data; //* it is declared to store each line read from file staff.txt
+     string data;
      bool found = false;
-     while (getline(inputFile, data)) //* this wile loop is used to read each line frome the file staff.txt
+     bool removed = false;
+     while (getline(inputFile, data))
      {
           stringstream ss(data);
           Staff staff;
-          ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at; //* >> read something from the stringstream object
+          ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at;
           if (staff.phone_number == phone)
           {
                found = true;
-               continue; // -.- skip writing  this line to the temp file
+               cout << "\n\tAre you sure you want to delete the staff with phone number '" << phone << "'? (Y/N): ";
+               char confirmation;
+               cin >> confirmation;
+               if (confirmation == 'N' || confirmation == 'n')
+               {
+                    tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << staff.create_at << endl;
+               }
+               else
+               {
+                    removed = true;
+               }
+               continue;
           }
           tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << staff.create_at << endl;
      }
@@ -813,9 +834,9 @@ void remove_staff_by_phone_number(const string &phone)
 
      if (!found)
      {
-          cout << "\tphone number: " << phone << " not found." << endl;
+          cout << "\tPhone number: " << phone << " not found." << endl;
      }
-     else
+     else if (removed)
      {
           cout << "\tRemoved successfully!" << endl;
           system("pause");
