@@ -11,13 +11,13 @@
 using namespace std;
 
 // :-D Global Scope declaration
-const string UNIVERSITY_NAME = "Royal University of Phnom Penh";
-const string FIRST_NAME = "Jonh";
-const string LAST_NAME = "Doe";
-const int AGE = 20;
+const string UNIVERSITY_NAME = "1";
+const string FIRST_NAME = "1";
+const string LAST_NAME = "1";
+const int AGE = 1;
 const string GENDER = "Male";
-const string PHONE_NUMBER = "+885123456789";
-const string PASSWORD = "jonh_doe_sweet_boy_168";
+const string PHONE_NUMBER = "1";
+const string PASSWORD = "1";
 
 // :-D Enum
 enum Role
@@ -469,6 +469,7 @@ void student_management()
                view_ses();
                cout << "\n\t";
                system("pause");
+               system("cls");
                break;
           case 4:
                search_student();
@@ -809,11 +810,109 @@ void remove_staff_by_phone_number(const string &phone)
      tempFile.close();
      remove("staff.txt");
      rename("temp.txt", "staff.txt");
-     cout << "\tRemoved successfully!" << endl;
+
      if (!found)
      {
           cout << "\tphone number: " << phone << " not found." << endl;
      }
+     else
+     {
+          cout << "\tRemoved successfully!" << endl;
+          system("pause");
+          system("cls");
+     }
+}
+
+void update_staff()
+{
+     string phone, opt;
+     char ch;
+
+     cout << "\n\t\tDo you want to update username, phone number, or password (1-3)?\n\n";
+     cout << "\t\t\t1. Update username" << endl;
+     cout << "\t\t\t2. Update phone number" << endl;
+     cout << "\t\t\t3. Update password" << endl;
+     cout << "\n\t\t>> Enter your option: ";
+     cin >> opt;
+
+     cout << "\n\tEnter the staff phone number: ";
+     cin.ignore();
+     getline(cin, phone);
+
+     ifstream staffFile("staff.txt");
+     ofstream tempFile("temp.txt");
+
+     if (!staffFile || !tempFile)
+     {
+          cout << "\tError opening the file" << endl;
+          return;
+     }
+
+     string data;
+     bool found = false;
+
+     while (getline(staffFile, data))
+     {
+          stringstream ss(data);
+          Staff staff;
+          ss >> staff.username >> staff.phone_number >> staff.password >> staff.create_at;
+          if (staff.phone_number == phone)
+          {
+               found = true;
+
+               if (opt == "1")
+               {
+                    cout << "\n\tEnter updated name: ";
+                    getline(cin, staff.username);
+               }
+               else if (opt == "2")
+               {
+                    cout << "\n\tEnter updated phone number: ";
+                    cin >> staff.phone_number;
+               }
+               else if (opt == "3")
+               {
+                    string current_password, new_password, confirm_password;
+                    cout << "\n\tEnter current password: ";
+                    current_password = asterisk_display(ch, current_password);
+                    if (current_password == staff.password)
+                    {
+                         cout << "\n\tEnter new password: ";
+                         new_password = asterisk_display(ch, new_password);
+                         cout << "\n\tConfirm new password: ";
+                         confirm_password = asterisk_display(ch, confirm_password);
+                         if (new_password == confirm_password)
+                         {
+                              staff.password = new_password;
+                         }
+                         else
+                         {
+                              cout << "\n\tPasswords do not match. Password not updated." << endl;
+                         }
+                    }
+                    else
+                    {
+                         cout << "\n\tIncorrect password. Password not updated." << endl;
+                    }
+               }
+          }
+          tempFile << "\t" << left << setw(21) << staff.username << left << setw(15) << staff.phone_number << left << setw(15) << staff.password << staff.create_at << endl;
+     }
+
+     staffFile.close();
+     tempFile.close();
+
+     if (!found)
+     {
+          cout << "\n\tStaff with phone number '" << phone << "' not found!" << endl;
+          remove("temp.txt");
+          return;
+     }
+
+     remove("staff.txt");
+     rename("temp.txt", "staff.txt");
+
+     cout << "\n\tStaff information updated successfully!" << endl;
 }
 
 void adminnn(int admin_option)
@@ -822,11 +921,11 @@ void adminnn(int admin_option)
      int opt_gender;
      system("cls");
      cout << "\n\n\n\t\t\tWait a moment..." << endl;
-     sleep(1); // l dalay 5 seconds
+     sleep(1);
      system("cls");
      cout << "\n\n\t!We ask you questions to make your system more secure." << endl;
      cout << "\n\t\tEnter your university name: ";
-     getline(cin >> ws, admin.university_name); // ;-) ws is used to remove whitespace
+     getline(cin >> ws, admin.university_name);
      cout << "\t\tEnter your first name: ";
      getline(cin >> ws, admin.firstname);
      cout << "\t\tEnter your last name: ";
@@ -860,14 +959,16 @@ inputGender:
      system("cls");
      if ((admin.university_name == UNIVERSITY_NAME) && (admin.firstname == FIRST_NAME) && (admin.lastname == LAST_NAME) && (admin.age == AGE) && (admin.gender == GENDER) && (admin.phone_num == PHONE_NUMBER) && (admin.password == PASSWORD))
      {
-          cout << "\n\t\tYou have logged in as admin" << endl;
+          cout << "\n\t\t\tYou have logged in as admin" << endl;
           while (1)
           {
-               cout << "\n\t1. Remove staff" << endl;
-               cout << "\t2. View staff " << endl;
-               cout << "\t3. View students" << endl;
-               cout << "\t4. Clear Screen" << endl;
-               cout << "\t5. Sign out" << endl;
+               cout << "\n\t\t1. Remove staff" << endl;
+               cout << "\t\t2. View staff " << endl;
+               cout << "\t\t3. View students" << endl;
+               cout << "\t\t4. Update staff" << endl;
+               cout << "\t\t5. Sign out" << endl
+                    << endl;
+               ;
                cout << "\t>> Enter your option: ";
                cin >> admin_option;
                cout << endl;
@@ -884,16 +985,19 @@ inputGender:
                     read_staff_file();
                     cout << "\n\t";
                     system("pause");
+                    system("cls");
                }
                else if (admin_option == 3)
                {
                     view_ses();
                     cout << "\n\t";
                     system("pause");
+                    system("cls");
                }
                else if (admin_option == 4)
                {
-                    system("cls");
+                    cout << "\n\t>> You chose 4.\"update staff \" " << endl;
+                    update_staff();
                }
                else if (admin_option == 5)
                     break;
@@ -911,6 +1015,7 @@ inputGender:
      else
      {
           cout << "\t\tWrong input!!";
+          system("pause");
      }
 }
 
@@ -960,7 +1065,6 @@ void stafff(int option, bool loggedIn = false)
 
 void instruction()
 {
-     // ;-) the rest of instruction....
      cout << "\n\t\t >>> Sech kdey nae nom <<<\n\n";
      cout << "\tThere are two roles in the program which are admin and staff. \n\t+ Admin is the one who take control all over staff and be able to delete staff's account as well. The admin can also view staff information and password. So when the staff forget the passsowrd they better contact direactly to admin to get they password or change their information.\n\t+ Staff is the postion which works on students. They can create student, delete student, view student, and take control or the entering of student and leaving of student. So their task is to take responsibility of student. For example, the student lost the vehicle, the staff would  take responsibel for it.\nIf you are admin you need to login first before getting into the program and do stuff.\n\n\tHow to login as admin.\n\t You must enter university name, first name, last name, gender, phone number ,and password correctly. Those are provided by the developer. So if you feel like changing those stuff, all you have to do if inform to the developer.\n\tAfter logging into the program you are authorized as an admin. You can view staff, student and delete staff.\n\t.... \n\n\tHow to use our system as staff. \n\tYou have two choices . You can sign in or sign up. \n\tSign up means create account(Note: Staff's name never have space). And sign in is to log in to your account.  \n\tIn case, you forget yourr password , you can contact the admin to get your password back or tell admin to delete your account. \n\n\t *** Dont be serious, if you have any problem of using our system feel free to contact the developer direactly to the email (unknown.kid@gmail.com)\n\n\t";
      system("pause");
@@ -969,7 +1073,7 @@ void instruction()
 bool continue_or_not(int option)
 {
      system("cls");
-     cout << "\n\t\tDo you want to read more or go to the next page?\n"
+     cout << "\n\t\tDo you want to read more or go to the next page?\n\n"
           << endl;
 inputAgain:
      cout << "\t1. Read more" << endl;
@@ -1002,7 +1106,7 @@ int main()
      cout << "\n\n\tPlease read the instruction carefully before using our system" << endl;
      while (1)
      {
-          int opt, n; // -.- n is for read more instruction or not
+          int opt, n;
           cout << "\n\t\t1. How to use it" << endl;
           cout << "\t\t2. Term and condition " << endl;
           cout << "\t\t3. Policy and privacy" << endl;
@@ -1049,7 +1153,6 @@ int main()
           }
      }
      cout << "\t";
-     // :@ When user input wrong format then this function will run
      while (1)
      {
      inputOption:
