@@ -1,2 +1,1 @@
-	002       lyna                Bike           23:34:47 PM         100 riel
-	003       lyna                Car            23:34:53 PM         1000 riel
+	002       sehya               Bike           12:16:59 PM         100 riel

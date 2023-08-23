@@ -220,6 +220,7 @@ bool staff_sign_in()
 
 void add_student()
 {
+     fstream studentFile("student.txt", ios::app);
      string student_id, student_name, vehicle_type, time;
      int price;
      int opt_ve;
@@ -254,6 +255,7 @@ void add_student()
      default:
           cout << "\t\tInvalid option!" << endl;
           return;
+          break;
      }
 
      time = get_current_time();
@@ -265,7 +267,7 @@ void add_student()
      student.price = price;
      student.create_at = time;
 
-     ifstream studentFile("student.txt");
+     // ifstream studentFile("student.txt");
      ofstream tempFile("temp.txt", ios::app);
 
      if (!studentFile || !tempFile)
@@ -454,6 +456,7 @@ void search_student()
 
 void update_student()
 {
+     cout << "We are working on it" << endl;
 }
 
 void student_management()
@@ -461,7 +464,6 @@ void student_management()
      int option;
      while (1)
      {
-          system("cls");
           cout << endl;
           cout << "\t================= Students' vehicles management =============== " << endl
                << endl;
@@ -517,6 +519,7 @@ void student_management()
 
 void staff_sign_up()
 {
+     ofstream staffFile("staff.txt", ios::app);
      string username, password, phone_number, pass, time;
      char ch1, ch2;
      cout << "\n\tEnter username: ";
