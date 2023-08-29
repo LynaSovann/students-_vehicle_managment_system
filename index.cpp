@@ -647,7 +647,7 @@ int main()
      // cout << "\n\n\n\n\t\t\t==============================" << endl;
      cout << "\t\t\t|||  Vihecal Parking System  || " << endl;
      cout << "\t\t\t==============================" << endl;
-     cout << "\n\n\n\n\t\t\t\t    LODING...";
+     cout << "\n\n\n\n\t\t\t\t  LODING...";
      cout << "\n\n\t\t\t";
 
      char bar1 = 177, bar2 = 219;

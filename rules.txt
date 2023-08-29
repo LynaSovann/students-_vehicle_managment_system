@@ -1,4 +1,0 @@
-
-Rule1: Tena
-Rule2: Dit way
-Rule3: lyna
