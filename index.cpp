@@ -10,6 +10,8 @@
 #include <windows.h>
 using namespace std;
 //* test lg
+//* test mdg tt
+
 
 // :-D Global Scope declaration
 const string UNIVERSITY_NAME = "1";
