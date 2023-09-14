@@ -9,6 +9,7 @@
 #include <unistd.h> // ;-) sleep();
 #include <windows.h>
 using namespace std;
+//* test lg
 
 // :-D Global Scope declaration
 const string UNIVERSITY_NAME = "1";
